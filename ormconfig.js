@@ -5,7 +5,7 @@ module.exports = {
 	port: 3306,
 	username: process.env.DB_USERNAME,
 	password: process.env.DB_PASSWORD,
-	database: 'gaeguri',
+	database: 'test',
 	synchronize: true,
 	logging: false,
 	entities: ['src/entity/**/*.ts'],
