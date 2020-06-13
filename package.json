@@ -1,20 +1,26 @@
 {
-   "name": "new-typeorm-project",
+   "name": "gaeguri-server",
    "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
+   "description": "gaeguri",
    "devDependencies": {
-      "ts-node": "3.3.0",
+      "@types/cors": "^2.8.6",
+      "@types/morgan": "^1.9.1",
       "@types/node": "^8.0.29",
+      "ts-node": "3.3.0",
       "typescript": "3.3.3333"
    },
    "dependencies": {
+      "cors": "^2.8.5",
       "dotenv": "^8.2.0",
+      "express-session": "^1.17.1",
       "graphql-yoga": "^1.18.3",
+      "jsonwebtoken": "^8.5.1",
+      "morgan": "^1.10.0",
       "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.10",
       "typeorm": "0.2.25"
    },
    "scripts": {
-      "start": "ts-node src/index.ts"
+      "start": "nodemon --exec ts-node src/index.ts"
    }
 }
