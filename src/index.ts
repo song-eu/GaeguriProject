@@ -1,20 +1,15 @@
 import 'reflect-metadata';
-
-import { GraphQLServer } from 'graphql-yoga';
+import { Options } from 'graphql-yoga';
+import app from './app';
 import typeormdbc from './ormconnection';
 
-const typeDefs = `
-  type Query {
-    hello(name: String): String!
-  }
-`;
-
-const resolvers = {
-	Query: {
-		hello: (_, { name }) => `Hello ${name || 'World'}`,
-	},
+const PORT: number | string = process.env.PORT || 4000;
+const PLAYGROUND_ENDPOINT: string = '/playground';
+const GRAPHQL_ENDPOINT: string = '/graphql';
+const appOptions: Options = {
+	port: PORT,
+	playground: PLAYGROUND_ENDPOINT,
+	endpoint: GRAPHQL_ENDPOINT,
 };
 
-const server = new GraphQLServer({ typeDefs, resolvers });
-
-typeormdbc.then(() => server.start(() => console.log('Server is running on localhost:4000')));
+typeormdbc.then(() => app.start(appOptions, () => console.log(`Server is running on localhost:${PORT}`)));
