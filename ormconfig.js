@@ -7,7 +7,7 @@ module.exports = {
 	password: process.env.DB_PASSWORD,
 	database: 'gaeguri',
 	synchronize: true,
-	logging: false,
+	logging: true,
 	entities: ['src/entity/**/*.ts'],
 	migrations: ['src/migration/**/*.ts'],
 	subscribers: ['src/subscriber/**/*.ts'],
