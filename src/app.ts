@@ -12,9 +12,11 @@ import { fileLoader } from 'merge-graphql-schemas';
 const schemas: GraphQLSchema[] = [];
 const folders = fs.readdirSync(path.join(__dirname, './api'));
 folders.forEach((folder) => {
-	const resolvers = fileLoader(path.join(__dirname, `./api/${folder}/${folder}.resolvers.ts`));
-	const typeDefs = importSchema(path.join(__dirname, `./api/${folder}/${folder}.graphql`));
-	schemas.push(makeExecutableSchema({ resolvers, typeDefs }));
+	if (folder !== 'shared.graphql') {
+		const resolvers = fileLoader(path.join(__dirname, `./api/${folder}/${folder}.resolvers.ts`));
+		const typeDefs = importSchema(path.join(__dirname, `./api/${folder}/${folder}.graphql`));
+		schemas.push(makeExecutableSchema({ resolvers, typeDefs }));
+	}
 });
 
 class App {
