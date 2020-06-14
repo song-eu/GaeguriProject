@@ -8,11 +8,11 @@ module.exports = {
 	database: 'gaeguri',
 	synchronize: true,
 	logging: true,
-	entities: ['src/entity/**/*.ts'],
+	entities: ['src/entities/**/*.ts'],
 	migrations: ['src/migration/**/*.ts'],
 	subscribers: ['src/subscriber/**/*.ts'],
 	cli: {
-		entitiesDir: 'src/entity',
+		entitiesDir: 'src/entities',
 		migrationsDir: 'src/migration',
 		subscribersDir: 'src/subscriber',
 	},
