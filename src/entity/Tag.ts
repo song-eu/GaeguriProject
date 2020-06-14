@@ -6,7 +6,7 @@ export class Tag {
 	@PrimaryGeneratedColumn()
 	Tag_id: number;
 
-	@Column()
+	@Column('varchar', { length: 255 })
 	Tag_name: string;
 
 	@CreateDateColumn({ name: 'createdAt' })

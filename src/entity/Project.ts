@@ -9,7 +9,7 @@ export class Project {
 	@PrimaryGeneratedColumn()
 	Project_id: number;
 
-	@Column()
+	@Column('varchar', { length: 255 })
 	Project_name: string;
 
 	@Column()
@@ -32,7 +32,7 @@ export class Project {
 
 	// status data 정의 필요
 	// enum type column도 괜찮을듯
-	@Column()
+	@Column('varchar', { length: 50 })
 	status: string;
 
 	@Column()

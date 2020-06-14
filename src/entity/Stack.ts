@@ -7,7 +7,7 @@ export class Stack {
 	@PrimaryGeneratedColumn()
 	Stack_id: number;
 
-	@Column()
+	@Column('varchar', { length: 200 })
 	Stack_name: string;
 
 	@CreateDateColumn({ name: 'createdAt' })

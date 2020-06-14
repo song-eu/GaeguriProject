@@ -28,5 +28,6 @@ module.exports = {
 		'ordered-imports': true,
 		'interface-name': false,
 		'strict-null-checks': false,
+		'no-submodule-imports': false,
 	},
 };

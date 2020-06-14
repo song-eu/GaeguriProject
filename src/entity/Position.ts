@@ -7,7 +7,7 @@ export class Position {
 	@PrimaryGeneratedColumn()
 	Position_id: number;
 
-	@Column()
+	@Column('varchar', { length: 50 })
 	Position_name: string;
 
 	@CreateDateColumn({ name: 'createdAt' })

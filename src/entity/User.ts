@@ -6,51 +6,51 @@ import {
 	UpdateDateColumn,
 	OneToMany,
 	OneToOne,
-	JoinTable,
 	JoinColumn,
+	BaseEntity,
 } from 'typeorm';
 import { USUserStack } from './US_UserStack';
 import { Chat } from './Chat';
 import { PCProjectCandidate } from './PC_ProjectCandidate';
 import { Position } from './Position';
 
-@Entity()
-export class User {
+@Entity('user')
+export class User extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	User_id: number;
 
-	@Column()
+	@Column('varchar', { length: 255, unique: true })
 	Email: string;
 
-	@Column()
+	@Column('text')
 	Password: string;
 
-	@Column()
+	@Column('varchar', { length: 255, nullable: true })
 	Username: string;
 
 	@OneToOne((type) => Position, (position) => position.user)
 	@JoinColumn({ name: 'Position_id' })
 	position: Position;
 
-	@Column({ type: 'text' })
+	@Column({ type: 'text', nullable: true })
 	AboutMe: string;
 
-	@Column({ type: 'text' })
+	@Column({ type: 'text', nullable: true })
 	Career: string;
 
-	@Column()
+	@Column({ nullable: true })
 	Grade: number;
 
-	@Column()
+	@Column('text', { nullable: true })
 	User_url: string;
 
-	@Column()
+	@Column('text', { nullable: true })
 	Profile_photo_path: string;
 
-	@Column()
+	@Column('varchar', { length: 50, nullable: true })
 	User_role: string;
 
-	@Column()
+	@Column({ nullable: true })
 	Allow_Invitation: boolean;
 
 	@CreateDateColumn({ name: 'createdAt' })

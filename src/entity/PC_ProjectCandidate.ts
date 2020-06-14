@@ -32,10 +32,10 @@ export class PCProjectCandidate {
 	@JoinColumn({ name: 'Candidate_id', referencedColumnName: 'User_id' })
 	candidate: User;
 
-	@Column()
+	@Column('varchar', { length: 50 })
 	Allowed: string;
 
-	@Column()
+	@Column('varchar', { length: 50 })
 	Owner: boolean;
 
 	@CreateDateColumn({ name: 'createdAt' })
