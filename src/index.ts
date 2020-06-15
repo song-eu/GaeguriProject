@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Options } from 'graphql-yoga';
 import app from './app';
-import typeormdbc from './ormconnection';
+
 import 'dotenv/config';
 
 const PORT: number | string = process.env.PORT || 4000;
@@ -13,5 +13,4 @@ const appOptions: Options = {
 	endpoint: GRAPHQL_ENDPOINT,
 };
 
-typeormdbc();
 app.start(appOptions, () => console.log(`Server is running on localhost:${PORT}`));
