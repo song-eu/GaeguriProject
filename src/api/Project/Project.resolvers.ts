@@ -9,26 +9,77 @@ import { PPProjectPositionNo } from '../../entities/PP_ProjectPositionNo';
 import { PSProjectStack } from '../../entities/PS_ProjectStack';
 import { Stack } from '../../entities/Stack';
 import { PCProjectCandidate } from '../../entities/PC_ProjectCandidate';
-import { User } from '../../entities/User';
 
 export const resolvers: ResolverMap = {
 	Query: {
 		hello: (_, { name }: GQL.IHelloOnQueryArguments) => `Hello ${name || 'World'}`,
 		getMyProjectList: async (_, { User_id }) => {
-			let projectList = [];
-			const pc = await PCProjectCandidate.createQueryBuilder('PC')
+			var projectList = [];
+			const projectIdList = await PCProjectCandidate.createQueryBuilder('PC')
+				.select('PC.Project_id')
 				.where('PC.Candidate_id = :id and PC.Allowed = :allowed', { id: User_id, allowed: 'Allowed' })
 				.getMany();
-			console.log(pc);
-			for (let i = 0; i < pc.length; i++) {
+			//console.log(projectIdList);
+			for (let i = 0; i < projectIdList.length; i++) {
 				const prj = await Project.createQueryBuilder('Project')
 					.leftJoinAndSelect('Project.projectstack', 'Stack')
 					.leftJoinAndSelect('Project.projectpositionno', 'StatusOfPosition')
-					.where('Project.Project_id = :id', { id: pc[i].Project_id })
+					.where('Project.Project_id = :id', { id: projectIdList[i].Project_id })
 					.getOne();
-				projectList.push(prj);
-				console.log(projectList);
+				//projectList.push(prj);
+
+				let prjInfo = {
+					Project_id: prj.Project_id,
+					Project_name: prj.Project_name,
+					Status: prj.status,
+					Stack: [],
+					StatusOfPosition: [],
+					Owner: 0,
+				};
+
+				for (let n = 0; n < prj.projectstack.length; n++) {
+					const st = await Stack.createQueryBuilder('Stack')
+						.where('Stack.Stack_id = :id', {
+							id: prj.projectstack[n].Stack_id,
+						})
+						.getOne();
+					//console.log(st.Stack_name);
+					prjInfo['Stack'].push(st.Stack_name);
+				}
+				for (let m = 0; m < prj.projectpositionno.length; m++) {
+					const pp = await PPProjectPositionNo.createQueryBuilder('PPProjectPositionNo')
+						.leftJoinAndSelect('PPProjectPositionNo.position', 'position')
+						.where('PPProjectPositionNo.Project_id = :project_id and PPProjectPositionNo.Position_id = :position_id', {
+							position_id: prj.projectpositionno[m].Position_id,
+							project_id: projectIdList[i].Project_id,
+						})
+						.getOne();
+					//console.log(pp);
+					const pc = await PCProjectCandidate.createQueryBuilder('PCProjectCandidate')
+						.where('PCProjectCandidate.Project_id = :pid')
+						.andWhere('PCProjectCandidate.Position_id = :psid')
+						.andWhere("PCProjectCandidate.Allowed = 'Allowed'")
+						.setParameters({ pid: projectIdList[i].Project_id, psid: pp.Position_id })
+						.getManyAndCount();
+					//console.log('pc', pc);
+					pc[0].forEach((p) => {
+						const value = p.Owner.valueOf().toString();
+						if (value === '1') {
+							//console.log('value???', value);
+							prjInfo.Owner = p.Candidate_id;
+						}
+					});
+					//console.log(pc[0], pc[1]);
+					prjInfo['StatusOfPosition'].push({
+						Position_id: pp.Position_id,
+						Position_name: pp.position.Position_name,
+						TotalCount: pp.NoOfPosition,
+						CurrenctCount: pc[1],
+					});
+				}
+				projectList.push(prjInfo);
 			}
+			return projectList;
 		},
 	},
 	Mutation: {
