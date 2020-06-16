@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 //import { GraphQLServer } from 'graphql-yoga';
 import { ResolverMap } from '../../types/graphql.utils';
-import { User } from '../../entity/User';
+import { User } from '../../entities/User';
 
 export const resolvers: ResolverMap = {
 	Query: {

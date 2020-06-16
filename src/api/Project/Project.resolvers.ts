@@ -1,15 +1,15 @@
 import * as bcrypt from 'bcryptjs';
 //import { GraphQLServer } from 'graphql-yoga';
 //import { ResolverMap } from './types/graphql.utils';
-//import { User } from './entity/User';
+//import { User } from './entities/User';
 import { ResolverMap } from '../../types/graphql.utils';
-import { Project } from '../../entity/Project';
-import { Position } from '../../entity/Position';
-import { PPProjectPositionNo } from '../../entity/PP_ProjectPositionNo';
-import { PSProjectStack } from '../../entity/PS_ProjectStack';
-import { Stack } from '../../entity/Stack';
-import { PCProjectCandidate } from '../../entity/PC_ProjectCandidate';
-import { User } from '../../entity/User';
+import { Project } from '../../entities/Project';
+import { Position } from '../../entities/Position';
+import { PPProjectPositionNo } from '../../entities/PP_ProjectPositionNo';
+import { PSProjectStack } from '../../entities/PS_ProjectStack';
+import { Stack } from '../../entities/Stack';
+import { PCProjectCandidate } from '../../entities/PC_ProjectCandidate';
+import { User } from '../../entities/User';
 
 export const resolvers: ResolverMap = {
 	Query: {
