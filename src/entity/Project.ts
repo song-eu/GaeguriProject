@@ -1,42 +1,43 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	CreateDateColumn,
+	UpdateDateColumn,
+	OneToMany,
+	BaseEntity,
+	JoinColumn,
+} from 'typeorm';
 import { PTProjectTag } from './PT_ProjectTag';
 import { PSProjectStack } from './PS_ProjectStack';
 import { Chat } from './Chat';
 import { PCProjectCandidate } from './PC_ProjectCandidate';
+import { PPProjectPositionNo } from './PP_ProjectPositionNo';
 
 @Entity()
-export class Project {
+export class Project extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	Project_id: number;
 
 	@Column('varchar', { length: 255 })
 	Project_name: string;
 
-	@Column()
+	@Column({ nullable: true })
 	StartAt: Date;
 
-	@Column()
+	@Column({ nullable: true })
 	EndAt: Date;
 
-	@Column({ type: 'text' })
+	@Column({ type: 'text', nullable: true })
 	Desc: string;
-
-	@Column()
-	No_FE: number;
-
-	@Column()
-	No_BE: number;
-
-	@Column()
-	No_FS: number;
 
 	// status data 정의 필요
 	// enum type column도 괜찮을듯
-	@Column('varchar', { length: 50 })
+	@Column('varchar', { length: 50, default: 'await' })
 	status: string;
 
-	@Column()
-	createdBy: string;
+	@Column({ nullable: true })
+	createdBy: number;
 
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date;
@@ -52,4 +53,6 @@ export class Project {
 	chat: Chat[];
 	@OneToMany((type) => PCProjectCandidate, (pc) => pc.project)
 	projectcandidate: PCProjectCandidate[];
+	@OneToMany((type) => PPProjectPositionNo, (pc) => pc.project)
+	projectpositionno: PPProjectPositionNo[];
 }

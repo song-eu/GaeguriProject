@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, BaseEntity } from 'typeorm';
 import { USUserStack } from './US_UserStack';
 import { PSProjectStack } from './PS_ProjectStack';
 
 @Entity()
-export class Stack {
+export class Stack extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	Stack_id: number;
 

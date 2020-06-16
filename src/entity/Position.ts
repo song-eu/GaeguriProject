@@ -1,9 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	CreateDateColumn,
+	OneToMany,
+	OneToOne,
+	BaseEntity,
+	ManyToMany,
+	ManyToOne,
+} from 'typeorm';
 import { PCProjectCandidate } from './PC_ProjectCandidate';
 import { User } from './User';
+import { PPProjectPositionNo } from './PP_ProjectPositionNo';
 
 @Entity()
-export class Position {
+export class Position extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	Position_id: number;
 
@@ -15,7 +26,8 @@ export class Position {
 
 	@OneToMany((type) => PCProjectCandidate, (pc) => pc.position)
 	projectcandidate: PCProjectCandidate[];
-
+	@OneToMany((type) => PPProjectPositionNo, (pc) => pc.position)
+	projectpositionno: PPProjectPositionNo[];
 	@OneToOne((type) => User, (user) => user.position)
 	user: User;
 }
