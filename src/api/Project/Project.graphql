@@ -1,28 +1,58 @@
 # import Error from '../shared.graphql'
 type Query {
     hello(name: String): String!,
-    getMyProjectList(User_id: Int!): [ProjectList]
+    getMyProjectList(User_id: Int!): [ProjectList],
 }
 
 type ProjectList {
-    Project_id:Int!
-    Project_name: String!
-    Owner: String!
-    Stack: [String]
+    Project_id:Int
+    Project_name: String
+    StartAt: Date
+    EndAt: Date
+    Desc: String
+    Owner: String
+    projectstack: [PS_ProjectStack]
     Status: String
-    StatusOfPosition: [StatusOfPosition!]
+    projectpositionno: [StatusOfPosition]
+    createdAt: Date
+    updatedAt: Date
 }
+type PS_ProjectStack {
+    PS_id: String
+    Project_id: Int
+    Stack_id: Int
+    stack: Stack
+}
+
+type Stack {
+    Stack_name: String
+}
+
 type StatusOfPosition {
-    Position_id: Int!
-    Position_name: String!
-    TotalCount: Int!
-    CurrenctCount: Int!
-    UserInfo: [UserInfo]
+    PP_id: Int
+    Project_id: Int
+    Position_id: Int
+    NoOfPosition: Int
+    position: Position
+    PC: [PC]
 }
+type PC {
+    Project_Position_id: Int
+    Sender_id: Int
+    Candidate_id:Int
+    Allowed: String
+    Owner: String
+    PCU: UserInfo
+}
+
+type Position {
+    Position_name: String
+}
+
 type UserInfo{
-    User_id: Int!
-    Username: String!
-    Position_id: Int!
+    User_id: Int
+    Email: String
+    Username: String
 }
 
 type Mutation {

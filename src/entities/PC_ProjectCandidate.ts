@@ -8,10 +8,10 @@ import {
 	JoinColumn,
 	OneToMany,
 	BaseEntity,
+	OneToOne,
 } from 'typeorm';
-import { Project } from './Project';
 import { User } from './User';
-import { Position } from './Position';
+import { PPProjectPositionNo } from './PP_ProjectPositionNo';
 
 @Entity()
 export class PCProjectCandidate extends BaseEntity {
@@ -19,38 +19,28 @@ export class PCProjectCandidate extends BaseEntity {
 	PC_id: number;
 
 	@Column()
-	Project_id: number;
+	Project_Postion_id: number;
 
-	@OneToMany((type) => Project, (project) => project.projectcandidate)
-	@JoinColumn({ name: 'Project_id' })
-	project: Project;
+	@ManyToOne((type) => PPProjectPositionNo, (pp) => pp.PC)
+	@JoinColumn({ name: 'Project_Postion_id', referencedColumnName: 'PP_id' })
+	PP: PPProjectPositionNo;
 
 	@Column({ nullable: true })
 	Sender_id: number;
 
-	@OneToMany((type) => User, (user) => user.pc_sender)
+	@ManyToOne((type) => User, (user) => user.pc_sender)
 	@JoinColumn({ name: 'Sender_id', referencedColumnName: 'User_id' })
 	sender: User;
 
 	@Column()
-	Position_id: number;
-
-	@OneToMany((type) => Position, (position) => position.projectcandidate)
-	@JoinColumn({ name: 'Position_id' })
-	position: Position;
-
-	@Column()
 	Candidate_id: number;
 
-	@OneToMany((type) => User, (user) => user.pc_candidate)
+	@ManyToOne((type) => User, (user) => user.pc_candidate)
 	@JoinColumn({ name: 'Candidate_id', referencedColumnName: 'User_id' })
 	candidate: User;
 
 	@Column('varchar', { length: 50 })
 	Allowed: string;
-
-	@Column('varchar', { length: 50 })
-	Owner: boolean;
 
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date;
