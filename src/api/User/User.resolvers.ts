@@ -2,6 +2,7 @@ import * as bcrypt from 'bcryptjs';
 //import { GraphQLServer } from 'graphql-yoga';
 import { ResolverMap } from '../../types/graphql.utils';
 import { User } from '../../entities/User';
+import passport from 'passport';
 
 export const resolvers: ResolverMap = {
 	Query: {

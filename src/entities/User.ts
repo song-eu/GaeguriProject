@@ -28,6 +28,12 @@ export class User extends BaseEntity {
 	@Column('varchar', { length: 255, nullable: true })
 	Username: string;
 
+	@Column({ type: 'text', nullable: true })
+	phoneNumber: string;
+
+	@Column({ type: 'boolean', default: false })
+	verifiedPhoneNumber: boolean;
+
 	@OneToOne((type) => Position, (position) => position.user)
 	@JoinColumn({ name: 'Position_id' })
 	position: Position;
