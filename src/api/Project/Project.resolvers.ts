@@ -13,6 +13,25 @@ import { PCProjectCandidate } from '../../entities/PC_ProjectCandidate';
 export const resolvers: ResolverMap = {
 	Query: {
 		hello: (_, { name }: GQL.IHelloOnQueryArguments) => `Hello ${name || 'World'}`,
+		testQuery: async (_, { User_id }) => {
+			//console.log(User_id);
+			const project = await Project.createQueryBuilder('Project')
+				.leftJoinAndSelect('Project.projectpositionno', 'ppn')
+				.leftJoinAndSelect('Project.projectstack', 'ps')
+				.leftJoin('ps.stack', 'stack')
+				.leftJoin('ppn.position', 'position')
+				.where('Project.Project_id = :id', {
+					id: 2,
+				})
+				.addSelect('stack.Stack_name')
+				.addSelect('position.Position_name')
+				.getMany();
+			console.log(project);
+			console.log(project[0].projectpositionno);
+			console.log(project[0].projectstack);
+			//console.log('projectStack', projectStack.getMany());
+			return Project;
+		},
 		getMyProjectList: async (_, { User_id }) => {
 			var projectList = [];
 			const projectIdList = await PCProjectCandidate.createQueryBuilder('PC')
