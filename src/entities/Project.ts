@@ -39,6 +39,9 @@ export class Project extends BaseEntity {
 	@Column({ nullable: true })
 	createdBy: number;
 
+	@Column({ nullable: true })
+	owner_id: number;
+
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date;
 
@@ -51,8 +54,7 @@ export class Project extends BaseEntity {
 	projectstack: PSProjectStack[];
 	@OneToMany((type) => Chat, (chat) => chat.project)
 	chat: Chat[];
-	@OneToMany((type) => PCProjectCandidate, (pc) => pc.project)
-	projectcandidate: PCProjectCandidate[];
+
 	@OneToMany((type) => PPProjectPositionNo, (pc) => pc.project)
 	projectpositionno: PPProjectPositionNo[];
 }

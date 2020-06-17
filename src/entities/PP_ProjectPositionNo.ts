@@ -1,6 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, BaseEntity, OneToMany } from 'typeorm';
 import { Project } from './Project';
 import { Position } from './Position';
+import { PCProjectCandidate } from './PC_ProjectCandidate';
+import { JoinAttribute } from 'typeorm/query-builder/JoinAttribute';
+import { join } from 'path';
 
 @Entity()
 export class PPProjectPositionNo extends BaseEntity {
@@ -23,4 +26,8 @@ export class PPProjectPositionNo extends BaseEntity {
 
 	@Column()
 	NoOfPosition: number;
+
+	@OneToMany((type) => PCProjectCandidate, (pc) => pc.PP)
+	@JoinColumn({ name: 'PP_id', referencedColumnName: 'Project_Postion_id' })
+	PC: PCProjectCandidate[];
 }
