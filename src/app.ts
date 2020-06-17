@@ -4,18 +4,24 @@ import cors from 'cors';
 import logger from 'morgan';
 import path from 'path';
 import * as fs from 'fs';
-import passport from 'passport';
 
+import { Response, NextFunction } from 'express';
 import { GraphQLSchema } from 'graphql';
-import { GraphQLServer } from 'graphql-yoga';
+import { GraphQLServer, PubSub } from 'graphql-yoga';
 import { importSchema } from 'graphql-import';
 import { fileLoader } from 'merge-graphql-schemas';
 import { mergeSchemas, makeExecutableSchema } from 'graphql-tools';
 
+import ormconfig from './../ormconfig.js';
 import typeormdbc from './ormconnection';
-import localPassAuth from './utils/passport/LocalAuth';
+import decodeJWT from './utils/token/decodeJWT';
+
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+
+// import passport from 'passport'; 패스포트 사용 잠정 중단
+// import localPassAuth from './utils/passport/LocalAuth';
+// import decodeJWT from './utils/token/decodeJWT';
 
 /*<----------------------------import schema-------------------------------->*/
 
@@ -33,25 +39,34 @@ folders.forEach((folder) => {
 
 class App {
 	public app: GraphQLServer;
+	private pubSub: any;
 	constructor() {
 		const schema: any = mergeSchemas({ schemas });
-		this.app = new GraphQLServer({ schema, context: ({ request, response }) => ({ request }) });
-		this.middlewares();
-
-		//passport기본설정 및 데이터 베이스 커넥터
-		localPassAuth();
+		this.pubSub = new PubSub();
+		this.pubSub.ee.setMaxListeners(99);
+		this.app = new GraphQLServer({
+			schema,
+			context: (req) => {
+				//localPassAuth(); 패스포트 잠정 중단
+				const { connection: { context = null } = {} } = req;
+				return {
+					req: req.request,
+					pubSub: this.pubSub, //데이터 쌍방향 통신 (publish-Subscribe)
+					context,
+				};
+			},
+		});
 		typeormdbc();
+		this.middlewares();
 	}
 	private middlewares = (): void => {
 		this.app.express.use(
 			session({
 				secret: process.env.SESSION_SECRET || 'ADFA',
 				store: new MySQLStore({
-					host: 'localhost',
-					port: 3306,
+					...ormconfig,
 					user: process.env.DB_USERNAME,
 					password: process.env.DB_PASSWORD,
-					database: 'session',
 				}),
 				cookie: {
 					httpOnly: true,
@@ -60,11 +75,21 @@ class App {
 				},
 			})
 		);
-		this.app.express.use(passport.initialize());
-		this.app.express.use(passport.session());
+		this.app.express.use(this.jwt);
 		this.app.express.use(cors());
 		this.app.express.use(logger('dev'));
-		this.app.express.post('/login');
+	};
+	private jwt = async (req, res: Response, next: NextFunction): Promise<void> => {
+		const token = req.get('X-JWT'); //access token
+		if (token) {
+			const user = await decodeJWT(token); // 토큰이 있을 경우 token을 풀어 유저 정보를 자겨온다.
+			if (user) {
+				req.user = user;
+			} else {
+				req.user = undefined;
+			}
+		}
+		next();
 	};
 }
 
