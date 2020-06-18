@@ -55,6 +55,30 @@ declare namespace GQL {
 		ok: boolean;
 		error: string | null;
 	}
+
+	interface EmailSignUpMutationArgs {
+		Username: string;
+		Password: string;
+		Email: string;
+		Phonenumber: string;
+	}
+
+	interface EmailSignUpResponse {
+		ok: boolean;
+		error: string | null;
+		token: string | null;
+	}
+
+	interface EmailLoginMutationArgs {
+		Email: string;
+		Password: string;
+	}
+
+	interface EmailLoginResponse {
+		ok: boolean;
+		error: string | null;
+		token: string | null;
+	}
 }
 
 // tslint:enable
