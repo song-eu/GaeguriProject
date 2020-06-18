@@ -29,10 +29,10 @@ export class User extends BaseEntity {
 	Username: string;
 
 	@Column({ type: 'text', nullable: true })
-	phoneNumber: string;
+	PhoneNumber: string;
 
 	@Column({ type: 'boolean', default: false })
-	verifiedPhoneNumber: boolean;
+	VerifiedPhoneNumber: boolean;
 
 	@OneToOne((type) => Position, (position) => position.user)
 	@JoinColumn({ name: 'Position_id' })

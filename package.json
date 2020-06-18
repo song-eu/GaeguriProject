@@ -5,6 +5,7 @@
    "devDependencies": {
       "@types/bcrypt": "^3.0.0",
       "@types/cors": "^2.8.6",
+      "@types/glob": "^7.1.2",
       "@types/jsonwebtoken": "^8.5.0",
       "@types/morgan": "^1.9.1",
       "@types/node": "^8.0.29",

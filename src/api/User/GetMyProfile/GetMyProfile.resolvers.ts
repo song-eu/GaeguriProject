@@ -1,6 +1,6 @@
-import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
+import { ResolverMap, privateResolver } from '../../types/graphql.utils';
 
-const resolvers: ResolverMap = {
+export const resolvers: ResolverMap = {
 	Query: {
 		GetMyProfile: privateResolver(async (_, __, { req }) => {
 			const { user } = req.user;
@@ -12,5 +12,3 @@ const resolvers: ResolverMap = {
 		}),
 	},
 };
-
-export default resolvers;
