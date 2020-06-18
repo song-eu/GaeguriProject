@@ -1,0 +1,23 @@
+type GetMyProfileResponse {
+  ok: Boolean!
+  error: String
+  user: User
+}
+
+type Query {
+  GetMyProfile: GetMyProfileResponse!
+}
+
+type User {
+    Username: String
+    Password:String
+    Email: String
+    Phonenumber: String
+    AboutMe: String
+    Career: String
+    Grade: Int
+    User_url: String
+    Profile_photo_path: String
+    User_role: String
+    Allow_Invitation: Boolean
+}

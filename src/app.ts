@@ -2,50 +2,26 @@ import 'dotenv/config';
 
 import cors from 'cors';
 import logger from 'morgan';
-import path from 'path';
-import * as fs from 'fs';
 
 import { Response, NextFunction } from 'express';
-import { GraphQLSchema } from 'graphql';
 import { GraphQLServer, PubSub } from 'graphql-yoga';
-import { importSchema } from 'graphql-import';
-import { fileLoader } from 'merge-graphql-schemas';
-import { mergeSchemas, makeExecutableSchema } from 'graphql-tools';
 
-import ormconfig from './../ormconfig.js';
+import { genSchema } from './utils/genSchema';
 import typeormdbc from './ormconnection';
 import decodeJWT from './utils/token/decodeJWT';
-
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
-
-// import passport from 'passport'; 패스포트 사용 잠정 중단
-// import localPassAuth from './utils/passport/LocalAuth';
-// import decodeJWT from './utils/token/decodeJWT';
-
-/*<----------------------------import schema-------------------------------->*/
-
-const schemas: GraphQLSchema[] = [];
-const folders = fs.readdirSync(path.join(__dirname, './api'));
-folders.forEach((folder) => {
-	if (folder !== 'shared.graphql') {
-		const resolvers = fileLoader(path.join(__dirname, `./api/${folder}/${folder}.resolvers.ts`));
-		const typeDefs = importSchema(path.join(__dirname, `./api/${folder}/${folder}.graphql`));
-		schemas.push(makeExecutableSchema({ resolvers, typeDefs }));
-	}
-});
 
 /*<----------------------------class App-------------------------------->*/
 
 class App {
 	public app: GraphQLServer;
 	private pubSub: any;
+	private schema: any;
 	constructor() {
-		const schema: any = mergeSchemas({ schemas });
+		this.schema = genSchema();
 		this.pubSub = new PubSub();
 		this.pubSub.ee.setMaxListeners(99);
 		this.app = new GraphQLServer({
-			schema,
+			schema: this.schema,
 			context: (req) => {
 				//localPassAuth(); 패스포트 잠정 중단
 				const { connection: { context = null } = {} } = req;
@@ -60,21 +36,6 @@ class App {
 		this.middlewares();
 	}
 	private middlewares = (): void => {
-		this.app.express.use(
-			session({
-				secret: process.env.SESSION_SECRET || 'ADFA',
-				store: new MySQLStore({
-					...ormconfig,
-					user: process.env.DB_USERNAME,
-					password: process.env.DB_PASSWORD,
-				}),
-				cookie: {
-					httpOnly: true,
-					secure: process.env.NODE_ENV === 'production',
-					maxAge: 1000 * 60 * 60 * 24 * 21, // 21 days
-				},
-			})
-		);
 		this.app.express.use(this.jwt);
 		this.app.express.use(cors());
 		this.app.express.use(logger('dev'));
