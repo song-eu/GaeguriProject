@@ -69,5 +69,5 @@ export class User extends BaseEntity {
 	pc_sender: PCProjectCandidate;
 
 	@OneToMany((type) => PCProjectCandidate, (pc) => pc.candidate)
-	pc_candidate: PCProjectCandidate;
+	pc_candidate: PCProjectCandidate[];
 }

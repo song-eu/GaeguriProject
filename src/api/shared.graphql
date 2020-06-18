@@ -2,3 +2,4 @@ type Error {
     path: String!
     message: String!
 }
+scalar Date

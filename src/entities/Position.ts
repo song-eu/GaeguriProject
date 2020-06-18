@@ -24,8 +24,6 @@ export class Position extends BaseEntity {
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date;
 
-	@OneToMany((type) => PCProjectCandidate, (pc) => pc.position)
-	projectcandidate: PCProjectCandidate[];
 	@OneToMany((type) => PPProjectPositionNo, (pc) => pc.position)
 	projectpositionno: PPProjectPositionNo[];
 	@OneToOne((type) => User, (user) => user.position)
