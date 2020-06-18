@@ -19,11 +19,8 @@ export const resolvers: ResolverMap = {
 				};
 			} else {
 				const hashedPwd = await bcrypt.hash(args.Password, BCRYPT_ROUND);
-				const newUser = await User.create({ ...args, Password: hashedPwd });
-				await newUser.save();
+				const newUser = await User.create({ ...args, Password: hashedPwd }).save();
 				const token = createJWT(newUser.User_id);
-				console.log('trimedata', { ...args, Password: hashedPwd });
-				console.log('token ?', token);
 				return {
 					ok: true,
 					error: null,
