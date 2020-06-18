@@ -1,19 +1,22 @@
-# import Error from '../shared.graphql'
+# import Error from '../../shared.graphql'
 type Query {
     hello(name: String): String!,
-    getMyProjectList(User_id: Int!): [ProjectList],
+    getMyProjectList(User_id: Int!): [Project],
+    getAvailableProjectList(User_id: Int!): [Project],
+    getProjectDetail(Project_id: Int): Project
 }
 
-type ProjectList {
+type Project {
     Project_id:Int
     Project_name: String
     StartAt: Date
     EndAt: Date
     Desc: String
-    Owner: String
     projectstack: [PS_ProjectStack]
     Status: String
     projectpositionno: [StatusOfPosition]
+    CreatedBy: Int
+    Owner_id: Int
     createdAt: Date
     updatedAt: Date
 }
@@ -42,7 +45,7 @@ type PC {
     Candidate_id:Int
     Allowed: String
     Owner: String
-    PCU: UserInfo
+    candidate: UserInfo
 }
 
 type Position {
@@ -55,21 +58,3 @@ type UserInfo{
     Username: String
 }
 
-type Mutation {
-    createNewProject(
-    Project_name: String!, 
-    User_id: Int!
-    StartAt:Date, 
-    EndAt:Date, 
-    Desc: String, 
-    NoOfPosition: [NoOfPosition!],
-    Stacks: [String]
-    ): [Error!]
-}
-
-scalar Date
-
-input NoOfPosition {
-    name: String!
-    count: Int!
-}

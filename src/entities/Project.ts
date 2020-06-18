@@ -40,7 +40,7 @@ export class Project extends BaseEntity {
 	createdBy: number;
 
 	@Column({ nullable: true })
-	owner_id: number;
+	Owner_id: number;
 
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date;
