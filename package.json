@@ -22,8 +22,10 @@
       "dotenv": "^8.2.0",
       "express-mysql-session": "^2.1.4",
       "express-session": "^1.17.1",
+      "glob": "^7.1.6",
       "graphql": "^15.1.0",
       "graphql-import": "^1.0.2",
+      "graphql-middleware": "^4.0.2",
       "graphql-tools": "^6.0.9",
       "graphql-yoga": "^1.18.3",
       "jsonwebtoken": "^8.5.1",
@@ -39,6 +41,7 @@
    },
    "scripts": {
       "start": "nodemon --exec ts-node src/index.ts",
-      "gen-schema-type": "gql2ts src/api/**/*.graphql -o src/types/**/*.schema.d.ts"
+      "gen-schema-type": "gql2ts src/api/**/*.graphql -o src/types/**/*.schema.d.ts",
+      "type" : "ts-node src/types/createTypes.ts"
    }
 }
