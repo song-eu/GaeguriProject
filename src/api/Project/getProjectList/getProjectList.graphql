@@ -13,7 +13,7 @@ type Project {
     EndAt: Date
     Desc: String
     projectstack: [PS_ProjectStack]
-    Status: String
+    status: String
     projectpositionno: [StatusOfPosition]
     CreatedBy: Int
     Owner_id: Int
