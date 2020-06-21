@@ -2,21 +2,6 @@ import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
 import { User } from '../../../entities/User';
 import { Position } from '../../../entities/Position';
 
-/**
- *  const houses = await getRepository(House)
-      .createQueryBuilder('house')
-      .leftJoinAndSelect('house.amenity', 'amenity')
-      .leftJoinAndSelect('house.images', 'image')
-      .where('house.plan = :plan', { plan: plan })
-      .andWhere('house.type = :type', { type: type })
-      .andWhere('house.year = :year', { year: year })
-      .andWhere('house.access = :access', { access: access })
-      .andWhere('house.adminDistrict = :adminDistrict', {
-        adminDistrict: adminDistrict,
-      })
-      .getMany();
- */
-
 export const resolvers: ResolverMap = {
 	Query: {
 		GetMyProfile: privateResolver(async (_, __, { req }) => {
