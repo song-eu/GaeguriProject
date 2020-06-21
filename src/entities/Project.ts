@@ -51,6 +51,7 @@ export class Project extends BaseEntity {
 	@OneToMany((type) => PTProjectTag, (PT) => PT.project)
 	projecttag: PTProjectTag[];
 	@OneToMany((type) => PSProjectStack, (PS) => PS.project)
+	@JoinColumn({ name: 'Project_id', referencedColumnName: 'Project_id' })
 	projectstack: PSProjectStack[];
 	@OneToMany((type) => Chat, (chat) => chat.project)
 	chat: Chat[];

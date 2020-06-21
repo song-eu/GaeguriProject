@@ -1,22 +1,22 @@
 # import Error from '../../shared.graphql'
-# import * from '../getProjectList/getProjectList.graphql'
 
 type Mutation {
-    updateProjectInfo(input: upProject): Project,
-    updateProjectStack(input: upPS): Project,
-    updateProjectNoOfPosition(input: upNOP): Project,
-    updateProjectStatus(input: upStatus): Project,
+    updateProjectInfo(input: upProject): [Error],
+    updateProjectStack(input: upPS): [Error],
+    updateProjectNoOfPosition(input: upNOP): [Error],
+    updateProjectStatus(input: upStatus): [Error],
 }
 input upProject {
     Project_id: Int!
     Project_name: String
-    Project_EndAt: Date
-    Project_Desc: String
+    EndAt: Date
+    Desc: String
+    Owner_id: Int
 }
 input upPS {
     Project_id: Int!
-    Stack_id: Int
-    Stack_name: String
+    delete: [String]
+    add: [String]
 }
 input upStatus{
     Project_id: Int!
@@ -25,6 +25,12 @@ input upStatus{
 
 input upNOP {
     Project_id: Int!
+    delete: [upPosition]
+    update: [upPosition]
+    add: [upPosition]
+}
+
+input upPosition {
     Position_id:Int
     Position_name: String
     Position_count: Int
