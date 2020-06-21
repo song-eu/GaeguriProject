@@ -21,7 +21,7 @@ export class PPProjectPositionNo extends BaseEntity {
 	project: Project;
 
 	@ManyToOne((type) => Position, (position) => position.projectpositionno)
-	@JoinColumn({ name: 'Position_id' })
+	@JoinColumn({ name: 'Position_id', referencedColumnName: 'Position_id' })
 	position: Position;
 
 	@Column()

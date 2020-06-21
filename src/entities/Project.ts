@@ -40,7 +40,7 @@ export class Project extends BaseEntity {
 	createdBy: number;
 
 	@Column({ nullable: true })
-	owner_id: number;
+	Owner_id: number;
 
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date;
@@ -51,6 +51,7 @@ export class Project extends BaseEntity {
 	@OneToMany((type) => PTProjectTag, (PT) => PT.project)
 	projecttag: PTProjectTag[];
 	@OneToMany((type) => PSProjectStack, (PS) => PS.project)
+	@JoinColumn({ name: 'Project_id', referencedColumnName: 'Project_id' })
 	projectstack: PSProjectStack[];
 	@OneToMany((type) => Chat, (chat) => chat.project)
 	chat: Chat[];

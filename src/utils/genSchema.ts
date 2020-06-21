@@ -8,7 +8,7 @@ export const genSchema = () => {
 	const pathToModules = path.join(__dirname, '../api');
 
 	const graphqlTypes = glob.sync(`${pathToModules}/**/*.graphql`).map((x) => fs.readFileSync(x, { encoding: 'utf8' }));
-	const resolvers = glob.sync(`${pathToModules}/**/resolvers.?s`).map((resolver) => require(resolver).resolvers);
+	const resolvers = glob.sync(`${pathToModules}/**/*.resolvers.ts`).map((resolver) => require(resolver).resolvers);
 
 	return makeExecutableSchema({
 		typeDefs: mergeTypes(graphqlTypes),
