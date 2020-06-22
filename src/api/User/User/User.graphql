@@ -1,8 +1,0 @@
-# import Error from '../../shared.graphql'
-type Query {
-    login(Email: String!, Password: String!): [Error!]
-}
-
-type Mutation {
-    register(email: String!, password: String!): [Error!]
-}
