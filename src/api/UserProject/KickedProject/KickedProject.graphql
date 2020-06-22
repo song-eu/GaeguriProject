@@ -1,0 +1,11 @@
+# import Error from '../../shared.graphql'
+
+type Mutation {
+    kickedProject(input: KickedUser): [Error]
+}
+
+input KickedUser {
+    User_id: Int,
+    Project_id: Int,
+    Position_id: Int
+}
