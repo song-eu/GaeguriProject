@@ -1,0 +1,16 @@
+type GetChatResponse {
+  ok: Boolean!
+  error: String
+  chat: [Chat]
+}
+type Query {
+  GetChat(Project_id : Int!) : GetChatResponse!
+}
+
+type Chat {
+  Chat_id: Int
+  User_id: Int
+  Project_id: Int
+  Message: String
+  createdAt: String
+}

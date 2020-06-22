@@ -1,0 +1,11 @@
+type Subscription {
+    ChatSub: Chat
+}
+
+type Chat {
+  Chat_id: Int!
+  User_id: Int!
+  Project_id : Int
+  Message: String
+  createdAt: String
+}

@@ -1,6 +1,5 @@
 import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
 import { User } from '../../../entities/User';
-import { Position } from '../../../entities/Position';
 
 export const resolvers: ResolverMap = {
 	Query: {
