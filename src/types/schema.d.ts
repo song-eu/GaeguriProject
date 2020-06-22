@@ -40,8 +40,11 @@ declare namespace GQL {
 	}
 
 	interface UpdateMyProfileMutationArgs {
-		Username?: string | number;
-		position?: Array<string>;
+		Username?: string;
+		Password?: string;
+		position?: string;
+		Position_id?: number;
+		stack?: Array<string>;
 		AboutMe?: string;
 		Career?: string;
 		Grade?: number;
@@ -60,7 +63,6 @@ declare namespace GQL {
 		Username: string;
 		Password: string;
 		Email: string;
-		Phonenumber: string;
 	}
 
 	interface EmailSignUpResponse {

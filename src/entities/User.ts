@@ -31,12 +31,15 @@ export class User extends BaseEntity {
 	@Column({ type: 'text', nullable: true })
 	PhoneNumber: string;
 
-	@Column({ type: 'boolean', default: false })
+	@Column({ type: 'boolean', nullable: true })
 	VerifiedPhoneNumber: boolean;
 
-	@OneToOne((type) => Position, (position) => position.user)
+	@OneToOne(() => Position, (position) => position.user)
 	@JoinColumn({ name: 'Position_id' })
 	position: Position;
+
+	@Column({ type: 'text', nullable: true })
+	Position_id: number;
 
 	@Column({ type: 'text', nullable: true })
 	AboutMe: string;
@@ -65,15 +68,16 @@ export class User extends BaseEntity {
 	@UpdateDateColumn({ name: 'updatedAt' })
 	updatedAt: Date;
 
-	@OneToMany((type) => USUserStack, (US) => US.user)
+	@OneToMany(() => USUserStack, (US) => US.user)
 	userstack: USUserStack[];
 
-	@OneToMany((type) => Chat, (chat) => chat.user)
+	@OneToMany(() => Chat, (chat) => chat.user)
 	chat: Chat[];
 
-	@OneToMany((type) => PCProjectCandidate, (pc) => pc.sender)
+	@OneToMany(() => PCProjectCandidate, (pc) => pc.sender)
 	pc_sender: PCProjectCandidate;
 
 	@OneToMany((type) => PCProjectCandidate, (pc) => pc.candidate)
 	pc_candidate: PCProjectCandidate[];
+
 }

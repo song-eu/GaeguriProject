@@ -1,7 +1,8 @@
+
 type GetMyProfileResponse {
   ok: Boolean!
   error: String
-  user: User
+  user : [User]
 }
 
 type Query {
@@ -9,10 +10,13 @@ type Query {
 }
 
 type User {
+    User_id:Int
     Username: String
     Password:String
     Email: String
-    Phonenumber: String
+    Position_id : Int
+    position:Position
+    userstack: [USUserStack]
     AboutMe: String
     Career: String
     Grade: Int
@@ -21,3 +25,15 @@ type User {
     User_role: String
     Allow_Invitation: Boolean
 }
+type USUserStack {
+  stack : Stack
+}
+
+type Stack {
+  Stack_name: String
+}
+
+type Position {
+  Position_id: Int
+  Position_name : String
+} 
