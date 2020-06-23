@@ -16,6 +16,7 @@
       "typescript": "3.3.3333"
    },
    "dependencies": {
+      "@types/faker": "^4.1.12",
       "bcrypt": "^5.0.0",
       "bcryptjs": "^2.4.3",
       "cors": "^2.8.5",
@@ -37,11 +38,14 @@
       "passport-jwt": "^4.0.0",
       "passport-local": "^1.0.0",
       "reflect-metadata": "^0.1.10",
-      "typeorm": "0.2.25"
+      "typeorm": "0.2.25",
+      "typeorm-seeding": "^1.6.1"
    },
    "scripts": {
       "start": "nodemon --exec ts-node src/index.ts",
       "gen-schema-type": "gql2ts src/api/**/*.graphql -o src/types/**/*.schema.d.ts",
-      "type" : "ts-node src/types/createTypes.ts"
+      "type": "ts-node src/types/createTypes.ts",
+      "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
+      "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
    }
 }

@@ -8,12 +8,15 @@ import {
 	OneToOne,
 	JoinColumn,
 	BaseEntity,
+	ManyToOne,
+	BeforeInsert,
 } from 'typeorm';
 import { USUserStack } from './US_UserStack';
 import { Chat } from './Chat';
 import { PCProjectCandidate } from './PC_ProjectCandidate';
 import { Position } from './Position';
-
+import * as bcrypt from 'bcrypt';
+const BCRYPT_ROUND = 10;
 @Entity('user')
 export class User extends BaseEntity {
 	@PrimaryGeneratedColumn()
@@ -34,12 +37,12 @@ export class User extends BaseEntity {
 	@Column({ type: 'boolean', nullable: true })
 	VerifiedPhoneNumber: boolean;
 
-	@OneToOne(() => Position, (position) => position.user)
-	@JoinColumn({ name: 'Position_id' })
-	position: Position;
-
 	@Column({ type: 'text', nullable: true })
 	Position_id: number;
+
+	@ManyToOne(() => Position, (position) => position.user)
+	@JoinColumn({ name: 'Position_id', referencedColumnName: 'Position_id' })
+	position: Position;
 
 	@Column({ type: 'text', nullable: true })
 	AboutMe: string;
@@ -80,4 +83,11 @@ export class User extends BaseEntity {
 	@OneToMany((type) => PCProjectCandidate, (pc) => pc.candidate)
 	pc_candidate: PCProjectCandidate[];
 
+	@BeforeInsert()
+	async savePassword(): Promise<void> {
+		if (this.Password) {
+			const hashedPassword = await bcrypt.hash(this.Password, BCRYPT_ROUND);
+			this.Password = hashedPassword;
+		}
+	}
 }
