@@ -26,6 +26,6 @@ export class Position extends BaseEntity {
 
 	@OneToMany((type) => PPProjectPositionNo, (pc) => pc.position)
 	projectpositionno: PPProjectPositionNo[];
-	@OneToOne((type) => User, (user) => user.position)
+	@OneToMany((type) => User, (user) => user.position)
 	user: User;
 }
