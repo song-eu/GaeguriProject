@@ -84,6 +84,7 @@ export class User extends BaseEntity {
 	pc_candidate: PCProjectCandidate[];
 
 	@BeforeInsert()
+	@BeforeUpdate()
 	async savePassword(): Promise<void> {
 		if (this.Password) {
 			const hashedPassword = await bcrypt.hash(this.Password, BCRYPT_ROUND);
