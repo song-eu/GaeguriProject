@@ -18,8 +18,8 @@ export const resolvers: ResolverMap = {
 					token: null,
 				};
 			} else {
-				const hashedPwd = await bcrypt.hash(args.Password, BCRYPT_ROUND);
-				const newUser = await User.create({ ...args, Password: hashedPwd }).save();
+				//const hashedPwd = await bcrypt.hash(args.Password, BCRYPT_ROUND);
+				const newUser = await User.create({ ...args }).save();
 				const token = createJWT(newUser.User_id);
 				return {
 					ok: true,

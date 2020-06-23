@@ -90,6 +90,11 @@ declare namespace GQL {
 		Message?: string;
 		Project_id: number;
 	}
+
+	interface GetYourProfileQueryArgs {
+		User_id?: number;
+		Username?: string;
+	}
 }
 
 // tslint:enable

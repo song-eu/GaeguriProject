@@ -12,10 +12,10 @@ export const resolvers: ResolverMap = {
 		UpdateMyProfile: privateResolver(async (_, args: GQL.UpdateMyProfileMutationArgs, { req }) => {
 			const { User_id } = req.user;
 			try {
-				if ('Password' in args) {
+				/* if ('Password' in args) {
 					const hashedPwd = await bcrypt.hash(args.Password, BCRYPT_ROUND);
 					args.Password = hashedPwd;
-				}
+				} */
 				if ('position' in args) {
 					const position = await Position.findOne({ where: { Position_name: args.position } });
 					args.Position_id = position.Position_id;
