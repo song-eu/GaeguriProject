@@ -81,6 +81,15 @@ declare namespace GQL {
 		error: string | null;
 		token: string | null;
 	}
+
+	interface GetChatQueryArgs {
+		Project_id: number;
+	}
+
+	interface SendChatMutationArgs {
+		Message?: string;
+		Project_id: number;
+	}
 }
 
 // tslint:enable
