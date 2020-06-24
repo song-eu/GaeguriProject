@@ -1,29 +1,26 @@
 
-type GetMyProfileResponse {
+type GetYourProfileResponse {
   ok: Boolean!
   error: String
   user : User
 }
 
 type Query {
-  GetMyProfile: GetMyProfileResponse!
+  GetYourProfile: GetYourProfileResponse!
 }
 
 type User {
     User_id:Int
     Username: String
-    Password:String
-    Email: String
     Position_id : Int
     position:Position
-    Project : [Project]
     userstack: [USUserStack]
+    Project : [Project]
     AboutMe: String
     Career: String
     Grade: Int
     User_url: String
     Profile_photo_path: String
-    User_role: String
     Allow_Invitation: Boolean
 }
 type USUserStack {
