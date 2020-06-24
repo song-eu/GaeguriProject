@@ -42,6 +42,9 @@ export class Project extends BaseEntity {
 	@Column({ nullable: true })
 	Owner_id: number;
 
+	@Column('text', { nullable: true })
+	Question: string;
+
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date;
 

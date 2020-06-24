@@ -10,6 +10,7 @@ import {
 	BaseEntity,
 	ManyToOne,
 	BeforeInsert,
+	BeforeUpdate,
 } from 'typeorm';
 import { USUserStack } from './US_UserStack';
 import { Chat } from './Chat';
