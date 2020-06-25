@@ -95,6 +95,10 @@ declare namespace GQL {
 		User_id?: number;
 		Username?: string;
 	}
+
+	interface SearchUserQueryArgs {
+		keyword: string;
+	}
 }
 
 // tslint:enable

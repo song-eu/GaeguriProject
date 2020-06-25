@@ -1,13 +1,11 @@
-
-type GetYourProfileResponse {
-  ok: Boolean!
-  error: String
-  user : User
-  project : [Project]
+type SearchUserResponse {
+    ok : Boolean!
+    error : String
+    users : [User]
 }
 
 type Query {
-  GetYourProfile: GetYourProfileResponse!
+    SearchUser : SearchUserResponse!
 }
 
 type User {
