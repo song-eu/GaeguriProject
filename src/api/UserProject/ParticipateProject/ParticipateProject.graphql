@@ -8,5 +8,6 @@ input PP_User {
     User_id: Int, 
     Project_id: Int, 
     Position_id: Int, 
-    Position_name: String
+    Position_name: String,
+    Answer: String
 } 

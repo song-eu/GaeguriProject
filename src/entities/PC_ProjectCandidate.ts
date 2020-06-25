@@ -42,6 +42,9 @@ export class PCProjectCandidate extends BaseEntity {
 	@Column('varchar', { length: 50 })
 	Allowed: string;
 
+	@Column('text', { nullable: true })
+	Answer: string;
+
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date;
 

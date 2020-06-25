@@ -9,7 +9,7 @@ export const resolvers: ResolverMap = {
 	Mutation: {
 		participateProject: async (_, { input }) => {
 			console.log(input);
-			const { User_id, Project_id, Position_id, Position_name } = input;
+			const { User_id, Project_id, Position_id, Answer } = input;
 
 			let inPC = await PPProjectPositionNo.createQueryBuilder('PPProjectPositionNo')
 				.leftJoinAndSelect('PPProjectPositionNo.PC', 'PC')
@@ -77,6 +77,7 @@ export const resolvers: ResolverMap = {
 								Candidate_id: User_id,
 							},
 						});
+						invitedCandidate.Answer = Answer;
 						invitedCandidate.Allowed = 'Wait';
 						await invitedCandidate.save();
 						return [
@@ -92,6 +93,7 @@ export const resolvers: ResolverMap = {
 				Project_Postion_id: newPC.PP_id,
 				Candidate_id: User_id,
 				Allowed: 'Wait',
+				Answer: Answer,
 			}).save();
 			console.log(newPCU);
 			return [

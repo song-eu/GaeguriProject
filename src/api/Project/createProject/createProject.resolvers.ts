@@ -8,7 +8,7 @@ import { PCProjectCandidate } from '../../../entities/PC_ProjectCandidate';
 
 export const resolvers: ResolverMap = {
 	Mutation: {
-		createNewProject: async (_, { Project_name, StartAt, EndAt, Desc, NoOfPosition, User_id, Stacks }) => {
+		createNewProject: async (_, { Project_name, StartAt, EndAt, Desc, NoOfPosition, User_id, Stacks, Question }) => {
 			//console.log('NoOfPosition??', NoOfPosition);
 			const newProject = new Project();
 			newProject.Project_name = Project_name;
@@ -17,6 +17,7 @@ export const resolvers: ResolverMap = {
 			newProject.Desc = Desc;
 			newProject.createdBy = User_id;
 			newProject.Owner_id = User_id;
+			newProject.Question = Question;
 			await newProject.save();
 
 			for (let i = 0; i < NoOfPosition.length; i++) {

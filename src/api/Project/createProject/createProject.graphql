@@ -7,7 +7,8 @@ type Mutation {
     EndAt:Date, 
     Desc: String, 
     NoOfPosition: [NoOfPosition!],
-    Stacks: [String]
+    Stacks: [String],
+    Question: String
     ): [Error!]
 }
 
