@@ -33,7 +33,7 @@ type Stack {
 
 type Position {
   Position_id: Int
-  Position_name : String
+  Position_name : String 
 } 
 
 type Project {

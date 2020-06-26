@@ -1,5 +1,4 @@
 import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
-import { Like } from 'typeorm';
 import { User } from '../../../entities/User';
 
 export const resolvers: ResolverMap = {
@@ -7,18 +6,14 @@ export const resolvers: ResolverMap = {
 		SearchUser: privateResolver(async (_, args: GQL.SearchUserQueryArgs, { req }) => {
 			const { keyword } = args;
 			try {
-				const users = await User.find({
-					where: { User_id: 2 },
-					/*where: { Username: Like(`%${keyword}#%`) },
-					 join: {
-						alias: 'user',
-						leftJoinAndSelect: {
-							UserStack: 'user.userstack',
-							Position: 'user.position',
-						},
-						leftJoin: { Stack: 'UserStack.stack' },
-					}, */
-				});
+				const users = await User.createQueryBuilder('User')
+					.leftJoinAndSelect('User.userstack', 'US')
+					.leftJoinAndSelect('User.position', 'UP')
+					.leftJoin('US.stack', 'Stack')
+					.addSelect('Stack.Stack_name')
+					.where('User.Username like :name', { name: `%${keyword}%` })
+					.getMany();
+
 				return {
 					ok: true,
 					error: null,
