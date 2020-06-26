@@ -97,7 +97,7 @@ declare namespace GQL {
 	}
 
 	interface SearchUserQueryArgs {
-		keyword: string;
+		keywords: string;
 	}
 }
 

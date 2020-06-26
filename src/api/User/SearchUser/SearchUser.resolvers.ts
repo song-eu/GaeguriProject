@@ -4,14 +4,14 @@ import { User } from '../../../entities/User';
 export const resolvers: ResolverMap = {
 	Query: {
 		SearchUser: privateResolver(async (_, args: GQL.SearchUserQueryArgs, { req }) => {
-			const { keyword } = args;
+			const { keywords } = args;
 			try {
 				const users = await User.createQueryBuilder('User')
 					.leftJoinAndSelect('User.userstack', 'US')
 					.leftJoinAndSelect('User.position', 'UP')
 					.leftJoin('US.stack', 'Stack')
 					.addSelect('Stack.Stack_name')
-					.where('User.Username like :name', { name: `%${keyword}%` })
+					.where('User.Username like :name', { name: `%${keywords}%` })
 					.getMany();
 
 				return {
