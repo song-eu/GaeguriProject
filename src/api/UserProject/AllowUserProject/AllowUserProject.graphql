@@ -1,0 +1,12 @@
+# inport Error from '../../shared.graphql'
+
+type Mutation {
+    allowUserProject(input: PC_User): [Error]
+}
+
+input PC_User {
+    User_id: Int,
+    Project_id: Int,
+    Position_id: Int,
+    Allowed: String
+}
