@@ -8,6 +8,7 @@ import { Stack } from '../../entities/Stack';
 import { Project } from '../../entities/Project';
 import { PPProjectPositionNo } from '../../entities/PP_ProjectPositionNo';
 import { PCProjectCandidate } from '../../entities/PC_ProjectCandidate';
+import { PSProjectStack } from '../../entities/PS_ProjectStack';
 
 export default class CreateDummy implements Seeder {
 	public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -72,7 +73,7 @@ export default class CreateDummy implements Seeder {
 			const min = faker.random.number({ min: 1, max: 30 });
 			const max = faker.random.number({ min: 1, max: 30 });
 			//console.log('USER_ID?????????', user);
-			if (min > max) {
+			if (min < max) {
 				for (let i = min; i <= max; i++) {
 					const us = new USUserStack();
 					us.User_id = user.User_id;
@@ -90,6 +91,23 @@ export default class CreateDummy implements Seeder {
 		const newPrjs = await factory(Project)().createMany(15);
 
 		for await (let project of newPrjs) {
+			const minps = faker.random.number({ min: 1, max: 41 });
+			const maxps = faker.random.number({ min: 1, max: 41 });
+
+			if (minps < maxps) {
+				for (let n = minps; n <= maxps; n++) {
+					const ps = new PSProjectStack();
+					ps.Project_id = project.Project_id;
+					ps.Stack_id = n;
+					await ps.save();
+				}
+			} else {
+				const ps = new PSProjectStack();
+				ps.Project_id = project.Project_id;
+				ps.Stack_id = maxps;
+				await ps.save();
+			}
+
 			const pp = new PPProjectPositionNo();
 			pp.Project_id = project.Project_id;
 			pp.Position_id = faker.random.number({ min: 1, max: 3 });
