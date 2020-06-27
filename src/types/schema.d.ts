@@ -97,7 +97,10 @@ declare namespace GQL {
 	}
 
 	interface SearchUserQueryArgs {
-		keywords: string;
+		keywords?: string;
+	}
+	interface ToggleFollowMutationArgs {
+		User_id: number;
 	}
 }
 

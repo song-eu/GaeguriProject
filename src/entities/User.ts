@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import {
 	Entity,
 	PrimaryGeneratedColumn,
@@ -5,19 +6,21 @@ import {
 	CreateDateColumn,
 	UpdateDateColumn,
 	OneToMany,
-	OneToOne,
 	JoinColumn,
 	BaseEntity,
 	ManyToOne,
 	BeforeInsert,
 	BeforeUpdate,
 } from 'typeorm';
-import { USUserStack } from './US_UserStack';
+
 import { Chat } from './Chat';
-import { PCProjectCandidate } from './PC_ProjectCandidate';
 import { Position } from './Position';
-import * as bcrypt from 'bcrypt';
+import { USUserStack } from './US_UserStack';
+import { UFUserFriend } from './UF_UserFriend';
+import { PCProjectCandidate } from './PC_ProjectCandidate';
+
 const BCRYPT_ROUND = 10;
+
 @Entity('user')
 export class User extends BaseEntity {
 	@PrimaryGeneratedColumn()
@@ -81,8 +84,14 @@ export class User extends BaseEntity {
 	@OneToMany(() => PCProjectCandidate, (pc) => pc.sender)
 	pc_sender: PCProjectCandidate;
 
-	@OneToMany((type) => PCProjectCandidate, (pc) => pc.candidate)
+	@OneToMany(() => PCProjectCandidate, (pc) => pc.candidate)
 	pc_candidate: PCProjectCandidate[];
+
+	@OneToMany(() => UFUserFriend, (uf) => uf.follower)
+	uf_follower: UFUserFriend[];
+
+	@OneToMany(() => UFUserFriend, (uf) => uf.followee)
+	uf_followee: UFUserFriend[];
 
 	@BeforeInsert()
 	@BeforeUpdate()
