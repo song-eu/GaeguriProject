@@ -1,4 +1,4 @@
-# inport Error from '../../shared.graphql'
+# import Error from '../../shared.graphql'
 
 type Mutation{
     participateProject(input: PP_User): [Error]
