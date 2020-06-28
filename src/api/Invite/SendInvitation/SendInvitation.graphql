@@ -1,0 +1,16 @@
+type Mutation {
+    sendInvitation(input: inviteUser): resSendInvitation
+}
+
+type resSendInvitation { 
+    ok: Boolean!
+    error: String
+    path: String
+}
+
+input inviteUser {
+    Sender_id: Int,
+    Candidate_id: Int,
+    Project_id: Int,
+    Position_id: Int
+}
