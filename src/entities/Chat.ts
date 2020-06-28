@@ -31,7 +31,7 @@ export class Chat extends BaseEntity {
 	User_id: number;
 
 	@Column({ type: 'text', nullable: true })
-	Message: string;
+	Contents: string;
 
 	@CreateDateColumn({ name: 'createdAt' })
 	createdAt: Date;

@@ -11,6 +11,6 @@ type Chat {
   Chat_id: Int
   User_id: Int
   Project_id: Int
-  Message: String
+  Contents: String
   createdAt: String
 }

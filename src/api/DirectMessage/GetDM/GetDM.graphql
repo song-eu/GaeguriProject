@@ -1,0 +1,34 @@
+type GetDMResponse {
+  ok: Boolean!
+  error: String
+  message: Message
+  path : String
+}
+type Query {
+  GetDM(Ur_id : Int!) : GetDMResponse!
+}
+
+type Message {
+  Message_id: Int
+  User1_id: Int
+  User2_id: Int
+  user1 : User
+  user2 : User
+  dm: [DirectMessage]
+  createdAt: String
+  updatedAt : String
+}
+
+type DirectMessage {
+  DM_id : Int
+  User_id : Int
+  user : User
+  Contents : String
+  createdAt : String
+}
+
+type User {
+  User_id : Int
+  Username : String
+  Profile_photo_path : String
+}

@@ -1,5 +1,4 @@
 import { Chat } from '../../../entities/Chat';
-import { User } from '../../../entities/User';
 import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
 import { Project } from '../../../entities/Project';
 
@@ -10,30 +9,33 @@ export const resolvers: ResolverMap = {
 		//보고 싶다면 새로운 브라우져를 켜서 확인해야 한다.
 		SendChat: privateResolver(async (_, args: GQL.SendChatMutationArgs, { req, pubSub }) => {
 			const { User_id } = req.user;
-			const { Project_id, Message } = args;
+			const { Project_id, Contents } = args;
 
 			try {
 				const project = await Project.findOne({ Project_id });
 				if (project) {
-					const chat = await Chat.create({ User_id, Project_id, Message }).save();
+					const chat = await Chat.create({ User_id, Project_id, Contents }).save();
 					pubSub.publish('newChatMessage', { ChatSub: chat });
 					return {
 						ok: true,
 						error: null,
 						chat,
+						path: 'SendChat',
 					};
 				} else {
 					return {
 						ok: false,
 						error: '프로젝트 방을 통한 접근이 아닙니다',
 						chat: null,
+						path: 'SendChat',
 					};
 				}
 			} catch (error) {
 				return {
 					ok: false,
 					error: error.message,
-					message: null,
+					chat: null,
+					path: 'SendChat',
 				};
 			}
 		}),

@@ -1,17 +1,18 @@
-type Chat {
-  Chat_id: Int
-  User_id: Int
-  Project_id: Int
-  Message: String
-  createdAt: String
-}
-
 type SendChatResponse {
   ok: Boolean!
   error: String
   chat: Chat
+  path: String
 }
 
 type Mutation {
-  SendChat(Message: String, Project_id: Int!): SendChatResponse!
+  SendChat(Contents: String, Project_id: Int!): SendChatResponse!
+}
+
+type Chat {
+  Chat_id: Int
+  User_id: Int
+  Project_id: Int
+  Contents: String
+  createdAt: String
 }

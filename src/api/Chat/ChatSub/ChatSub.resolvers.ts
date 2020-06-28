@@ -1,6 +1,6 @@
 import { withFilter } from 'graphql-yoga';
 import { Chat } from '../../../entities/Chat';
-import { User } from '../../../entities/User';
+//import { User } from '../../../entities/User';
 
 export const resolvers = {
 	Subscription: {
@@ -9,13 +9,13 @@ export const resolvers = {
 				//must return boolean
 				(_, __, { pubSub }) => pubSub.asyncIterator('newChatMessage'),
 				async (payload, _, { context }) => {
-					const user: User = context.currentUser;
+					//const user: User = context.currentUser;
 					const {
-						ChatSub: { Chat_id },
+						ChatSub: { Project_id },
 					} = payload;
 					try {
-						const chat = await Chat.findOne({ Chat_id });
-						if (chat) {
+						const chat = await Chat.find({ Project_id });
+						if (chat.length) {
 							return true;
 						} else {
 							return false;
