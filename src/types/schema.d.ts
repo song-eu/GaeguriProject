@@ -86,9 +86,19 @@ declare namespace GQL {
 		Project_id: number;
 	}
 
+	interface GetDMQueryArgs {
+		Message_id: number;
+	}
+
 	interface SendChatMutationArgs {
-		Message?: string;
+		Contents?: string;
 		Project_id: number;
+	}
+
+	interface SendDMMutationArgs {
+		Contents?: string;
+		Receiver_id: number;
+		Message_id?: number;
 	}
 
 	interface GetYourProfileQueryArgs {

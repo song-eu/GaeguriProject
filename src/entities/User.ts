@@ -18,6 +18,8 @@ import { Position } from './Position';
 import { USUserStack } from './US_UserStack';
 import { UFUserFriend } from './UF_UserFriend';
 import { PCProjectCandidate } from './PC_ProjectCandidate';
+import { Message } from './Message';
+import { DirectMessage } from './DirectMessage';
 
 const BCRYPT_ROUND = 10;
 
@@ -92,6 +94,15 @@ export class User extends BaseEntity {
 
 	@OneToMany(() => UFUserFriend, (uf) => uf.followee)
 	uf_followee: UFUserFriend[];
+
+	@OneToMany(() => Message, (m) => m.user1)
+	m_user1: Message[];
+
+	@OneToMany(() => Message, (m) => m.user2)
+	m_user2: Message[];
+
+	@OneToMany(() => DirectMessage, (dm) => dm.user)
+	dm_user: DirectMessage[];
 
 	@BeforeInsert()
 	@BeforeUpdate()
