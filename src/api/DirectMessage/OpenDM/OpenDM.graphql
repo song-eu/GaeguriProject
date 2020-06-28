@@ -1,0 +1,26 @@
+type OpenDMResponse {
+    ok: Boolean!
+    error: String
+    message: Message
+    path: String
+}
+
+type Mutation{
+    OpenDM(Receiver_id: Int) : OpenDMResponse!
+}
+
+type Message {
+    Message_id: Int
+    User1_id: Int
+    user1: User
+    User2_id: Int
+    user2: User
+    createdAt: String
+}
+
+type User {
+    User_id: Int
+    Email: String
+    Username: String
+    Profile_photo_path: String
+}

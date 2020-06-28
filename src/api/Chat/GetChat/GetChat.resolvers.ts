@@ -14,12 +14,14 @@ export const resolvers: ResolverMap = {
 						ok: true,
 						error: null,
 						chat,
+						path: 'GetChat',
 					};
 				} else {
 					return {
 						ok: false,
 						error: 'project 가 없습니다',
 						chat: null,
+						path: 'GetChat',
 					};
 				}
 			} catch (error) {
@@ -27,6 +29,7 @@ export const resolvers: ResolverMap = {
 					ok: false,
 					error: error.message,
 					chat: null,
+					path: 'GetChat',
 				};
 			}
 		}),

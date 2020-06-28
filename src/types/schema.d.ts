@@ -97,8 +97,11 @@ declare namespace GQL {
 
 	interface SendDMMutationArgs {
 		Contents?: string;
+		Message_id: number;
+	}
+
+	interface OpenDMMutationArgs {
 		Receiver_id: number;
-		Message_id?: number;
 	}
 
 	interface GetYourProfileQueryArgs {
