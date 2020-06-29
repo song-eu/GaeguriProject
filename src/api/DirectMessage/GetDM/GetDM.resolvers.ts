@@ -1,34 +1,26 @@
 import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
 import { Message } from '../../../entities/Message';
+import { DirectMessage } from '../../../entities/DirectMessage';
 
 export const resolvers: ResolverMap = {
 	Query: {
 		GetDM: privateResolver(async (_, args: GQL.GetDMQueryArgs, { req }) => {
 			const { Message_id } = args;
-			const { User_id } = req.user;
 			try {
-				const message = await Message.findOne({ Message_id }, { relations: ['dm'] });
+				const message = await Message.findOne({ Message_id });
 				if (message) {
-					if (message.User1_id === User_id || message.User2_id === User_id) {
-						return {
-							ok: true,
-							error: null,
-							message,
-							path: 'GetMessage',
-						};
-					} else {
-						return {
-							ok: false,
-							error: '메세지를 볼 수 없는 유저입니다',
-							message: null,
-							path: 'GetMessage',
-						};
-					}
+					const dm = await DirectMessage.find({ Message_id });
+					return {
+						ok: true,
+						error: null,
+						dm,
+						path: 'GetMessage',
+					};
 				} else {
 					return {
 						ok: false,
 						error: '메세지를 찾을 수 없습니다',
-						message: null,
+						dm: null,
 						path: 'GetMessage',
 					};
 				}
@@ -36,7 +28,7 @@ export const resolvers: ResolverMap = {
 				return {
 					ok: false,
 					error: error.message,
-					message: null,
+					dm: null,
 					path: 'GetMessage',
 				};
 			}

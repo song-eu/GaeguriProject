@@ -1,0 +1,28 @@
+type GetDMListResponse {
+    ok: Boolean!
+    error: String
+    list: [Message]
+    path: String
+}
+
+type Query {
+    GetDMList: GetDMListResponse!
+}
+
+type Message {
+    Message_id: Int
+    User1_id: Int
+    user1: User
+    User2_id: Int
+    user2: User
+    createdAt: String
+    dm: [DirectMessage]
+}
+
+type DirectMessage {
+  DM_id: Int
+  User_id: Int
+  user: User
+  Contents: String
+  createdAt: String
+}

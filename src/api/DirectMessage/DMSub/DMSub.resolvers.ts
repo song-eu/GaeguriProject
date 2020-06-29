@@ -1,6 +1,5 @@
 import { withFilter } from 'graphql-yoga';
-import { Message } from '../../../entities/Message';
-import { User } from '../../../entities/User';
+import { DirectMessage } from '../../../entities/DirectMessage';
 
 export const resolvers = {
 	Subscription: {
@@ -8,15 +7,15 @@ export const resolvers = {
 			subscribe: withFilter(
 				//must return boolean
 				(_, __, { pubSub }) => pubSub.asyncIterator('newDirectMessage'),
-				async (payload, _, { context }) => {
-					const user: User = context.currentUser;
+				async (payload, _) => {
+					//const user: User = context.currentUser;
 					const {
 						DMSub: { Message_id },
 					} = payload;
 					try {
-						const message = await Message.findOne({ Message_id });
-						if (message) {
-							return message.User1_id === user.User_id || message.User2_id === user.User_id;
+						const dm = await DirectMessage.find({ Message_id });
+						if (dm.length) {
+							return true;
 						} else {
 							return false;
 						}

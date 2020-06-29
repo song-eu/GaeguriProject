@@ -2,6 +2,7 @@ type GetChatResponse {
   ok: Boolean!
   error: String
   chat: [Chat]
+  path: String
 }
 type Query {
   GetChat(Project_id : Int!) : GetChatResponse!
