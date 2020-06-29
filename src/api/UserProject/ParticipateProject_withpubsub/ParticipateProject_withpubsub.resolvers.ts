@@ -57,8 +57,8 @@ export const resolvers: ResolverMap = {
 							});
 							invitedCandidate.Allowed = 'Allowed';
 							await invitedCandidate.save();
-							pubSub.publish('NEW_PARTICIPATION_APPLY', {
-								newApplySub: { Project_id, Position_id, User_id },
+							pubSub.publish('ACCEPT_INVITATION', {
+								acceptInvitationSub: { Project_id, Position_id, User_id, Sender: invitedCandidate.Sender_id },
 							});
 							return {
 								ok: true,

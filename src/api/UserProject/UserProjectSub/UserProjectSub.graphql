@@ -1,9 +1,14 @@
 type Subscription {
-    newApplySub: subApply
+    newApplySub: subRes,
+    acceptInvitationSub: subRes,
 }
 
-type subApply {
+type subRes {
     User_id: Int, 
+    Email: String,
+    Username: String,
     Project_id: Int, 
+    Project_name: String,
     Position_id: Int
+    Position_name: String
 } 

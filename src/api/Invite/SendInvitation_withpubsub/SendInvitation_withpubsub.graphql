@@ -1,0 +1,15 @@
+type Mutation {
+    sendInvitationwithPubSub(input: inviteUser): resSendInvitation
+}
+
+type resSendInvitation { 
+    ok: Boolean!
+    error: String
+    path: String
+}
+
+input inviteUser {
+    Candidate_id: Int,
+    Project_id: Int,
+    Position_id: Int
+}
