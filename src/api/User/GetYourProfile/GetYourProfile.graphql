@@ -1,0 +1,45 @@
+
+type GetYourProfileResponse {
+  ok: Boolean!
+  error: String
+  user : User
+  project : [Project]
+}
+
+type Query {
+  GetYourProfile: GetYourProfileResponse!
+}
+
+type User {
+    User_id:Int
+    Username: String
+    Position_id : Int
+    position:Position
+    userstack: [USUserStack]
+    Project : [Project]
+    AboutMe: String
+    Career: String
+    Grade: Int
+    User_url: String
+    Profile_photo_path: String
+    Allow_Invitation: Boolean
+}
+
+type USUserStack {
+  stack : Stack
+}
+
+type Stack {
+  Stack_name: String
+}
+
+type Position {
+  Position_id: Int
+  Position_name : String
+} 
+
+type Project {
+    Project_id : Int
+    Project_name : String
+    status : String
+}

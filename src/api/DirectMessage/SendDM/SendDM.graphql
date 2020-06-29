@@ -1,0 +1,27 @@
+type SendDMResponse {
+  ok: Boolean!
+  error: String
+  dm: DirectMessage
+  path: String
+}
+
+type Mutation {
+  SendDM(Contents: String, Message_id: Int!): SendDMResponse!
+}
+
+type DirectMessage {
+  DM_id: Int
+  User_id: Int
+  user: User
+  Message_id: Int
+  Contents: String
+  createdAt: String
+  updatedAt: String
+}
+
+type User {
+  User_id: Int
+  Username: String
+  Email: String
+  Profile_photo_path: String
+}

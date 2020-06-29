@@ -1,0 +1,19 @@
+type Subscription {
+    DMSub: DirectMessage
+}
+
+type DirectMessage {
+  DM_id: Int
+  User_id: Int
+  user: User
+  Message_id: Int
+  Contents: String
+  createdAt: String
+}
+
+type User {
+  User_id: Int
+  Username: String
+  Email: String
+  Profile_photo_path: String
+}

@@ -1,0 +1,18 @@
+# import Error from '../../shared.graphql'
+type Mutation {
+    createNewProject(
+    Project_name: String!, 
+    User_id: Int!
+    StartAt:Date, 
+    EndAt:Date, 
+    Desc: String, 
+    NoOfPosition: [NoOfPosition!],
+    Stacks: [String],
+    Question: String
+    ): [Error!]
+}
+
+input NoOfPosition {
+    name: String!
+    count: Int!
+}

@@ -1,0 +1,61 @@
+{
+   "name": "gaeguri-server",
+   "version": "0.0.1",
+   "description": "gaeguri",
+   "main" : "src/index.ts",
+   "devDependencies": {
+      "@types/bcrypt": "^3.0.0",
+      "@types/cors": "^2.8.6",
+      "@types/glob": "^7.1.2",
+      "@types/jsonwebtoken": "^8.5.0",
+      "@types/morgan": "^1.9.1",
+      "@types/node": "^8.0.29",
+      "@types/passport": "^1.0.3",
+      "@types/passport-local": "^1.0.33",
+      "@types/faker": "^4.1.12",
+      "gql2ts": "^1.10.1",
+      "ts-node": "3.3.0",
+      "typescript": "3.3.3333"
+   },
+   "dependencies": {
+      "bcrypt": "^5.0.0",
+      "bcryptjs": "^2.4.3",
+      "cors": "^2.8.5",
+      "dotenv": "^8.2.0",
+      "express-mysql-session": "^2.1.4",
+      "express-session": "^1.17.1",
+      "glob": "^7.1.6",
+      "graphql-import": "^1.0.2",
+      "graphql-middleware": "^4.0.2",
+      "graphql-tools": "^6.0.9",
+      "graphql-yoga": "^1.18.3",
+      "jsonwebtoken": "^8.5.1",
+      "merge-graphql-schemas": "^1.7.8",
+      "morgan": "^1.10.0",
+      "mysql": "^2.14.1",
+      "passport": "^0.4.1",
+      "passport-google-oauth20": "^2.0.0",
+      "passport-jwt": "^4.0.0",
+      "passport-local": "^1.0.0",
+      "reflect-metadata": "^0.1.10",
+      "typeorm": "0.2.25",
+      "typeorm-seeding": "^1.6.1"
+   },
+   "resolutions": {
+      "graphql": "^15.1.0"
+   },
+   "scripts": {
+      "start": "nodemon --exec ts-node src/index.ts",
+      "gen-schema-type": "gql2ts src/api/**/*.graphql -o src/types/**/*.schema.d.ts",
+      "type": "ts-node src/types/createTypes.ts",
+      "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
+      "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
+      "heroku-prebuild": "echo This runs before Heroku installs dependencies.",
+      "heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies.",
+      "heroku-cleanup": "echo This runs after Heroku prunes and caches dependencies."
+   },
+   "engines": {
+      "node": "10.x",
+      "npm": "6.x"
+    }
+}

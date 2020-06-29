@@ -1,0 +1,13 @@
+type Subscription {
+    invitationSub: sendInvitationSub
+}
+
+type sendInvitationSub {
+    Project_id: Int,
+    Project_name: String,
+    Position_id: Int,
+    Position_name: String,
+    Sender_id: Int,
+    Sender_Email: String,
+    Sender_Username: String
+}

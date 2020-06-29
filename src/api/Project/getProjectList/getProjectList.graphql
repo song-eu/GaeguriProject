@@ -1,0 +1,60 @@
+# import Error from '../../shared.graphql'
+type Query {
+    hello(name: String): String!,
+    getMyProjectList(User_id: Int!): [Project],
+    getAvailableProjectList(User_id: Int!): [Project],
+    getProjectDetail(Project_id: Int): Project
+}
+
+type Project {
+    Project_id:Int
+    Project_name: String
+    StartAt: Date
+    EndAt: Date
+    Desc: String
+    projectstack: [PS_ProjectStack]
+    status: String
+    projectpositionno: [StatusOfPosition]
+    CreatedBy: Int
+    Owner_id: Int
+    createdAt: Date
+    updatedAt: Date
+}
+type PS_ProjectStack {
+    PS_id: String
+    Project_id: Int
+    Stack_id: Int
+    stack: Stack
+}
+
+type Stack {
+    Stack_name: String
+}
+
+type StatusOfPosition {
+    PP_id: Int
+    Project_id: Int
+    Position_id: Int
+    NoOfPosition: Int
+    position: Position
+    PC: [PC]
+}
+type PC {
+    Project_Position_id: Int
+    Sender_id: Int
+    Candidate_id:Int
+    Allowed: String
+    Owner: String
+    candidate: UserInfo
+}
+
+type Position {
+    Position_name: String
+}
+
+type UserInfo{
+    User_id: Int
+    Email: String
+    Username: String
+}
+
