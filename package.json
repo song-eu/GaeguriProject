@@ -41,7 +41,7 @@
       "typeorm-seeding": "^1.6.1"
    },
    "resolutions": {
-      "graphql": "14.4.2"
+      "graphql": "^15.1.0"
    },
    "scripts": {
       "start": "nodemon --exec ts-node src/index.ts",

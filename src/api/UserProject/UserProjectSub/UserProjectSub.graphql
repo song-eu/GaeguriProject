@@ -1,0 +1,9 @@
+type Subscription {
+    newApplySub: subApply
+}
+
+type subApply {
+    User_id: Int, 
+    Project_id: Int, 
+    Position_id: Int
+} 
