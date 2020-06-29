@@ -1,0 +1,16 @@
+type Mutation{
+    participateProjectWithPUBSUB(input: PP_User): resPP
+}
+
+type resPP  {
+    ok: Boolean!
+    error: String
+    path: String
+}
+
+input PP_User {
+    User_id: Int, 
+    Project_id: Int, 
+    Position_id: Int,
+    Answer: String
+} 
