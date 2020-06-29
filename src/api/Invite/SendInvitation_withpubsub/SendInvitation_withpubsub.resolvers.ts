@@ -4,7 +4,7 @@ import { PCProjectCandidate } from '../../../entities/PC_ProjectCandidate';
 
 export const resolvers: ResolverMap = {
 	Mutation: {
-		sendInvitation: privateResolver(async (_, { input }, { req, pubSub }) => {
+		sendInvitationwithPubSub: privateResolver(async (_, { input }, { req, pubSub }) => {
 			const { Candidate_id, Project_id, Position_id } = input;
 			const Sender_id = req.user.User_id;
 			try {

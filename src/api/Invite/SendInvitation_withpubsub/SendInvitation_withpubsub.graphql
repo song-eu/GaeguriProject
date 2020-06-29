@@ -1,5 +1,5 @@
 type Mutation {
-    sendInvitation(input: inviteUser): resSendInvitation
+    sendInvitationwithPubSub(input: inviteUser): resSendInvitation
 }
 
 type resSendInvitation { 
@@ -9,7 +9,6 @@ type resSendInvitation {
 }
 
 input inviteUser {
-    Sender_id: Int,
     Candidate_id: Int,
     Project_id: Int,
     Position_id: Int

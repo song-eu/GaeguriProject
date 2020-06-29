@@ -4,13 +4,14 @@ import { Position } from '../../../entities/Position';
 import { User } from '../../../entities/User';
 
 const SEND_INVITATION = 'SEND_INVITATION';
+
 export const resolvers = {
 	Subscription: {
 		invitationSub: {
-			resolver: async (payload, _, __) => {
+			resolve: async (payload, _, __) => {
 				console.log('payload ------- resolver', payload);
 				const {
-					invitationSub: { Project_id, Position_id, Candidate_id, Sender_id },
+					invitationSub: { Project_id, Position_id, Sender_id },
 				} = payload;
 				const prj = await Project.findOne({ Project_id });
 				const position = await Position.findOne({ Position_id });
@@ -25,6 +26,7 @@ export const resolvers = {
 					Sender_Email: sender.Email,
 					Sender_Username: sender.Username,
 				};
+				console.log('data?????????---------', data);
 				return data;
 			},
 			subscribe: withFilter(
@@ -33,7 +35,7 @@ export const resolvers = {
 				},
 				async (payload, _, { connectionContext }) => {
 					const {
-						invitationSub: { Project_id, Position_id, Candidate_id, Sender_id },
+						invitationSub: { Candidate_id },
 					} = payload;
 					const user = connectionContext.currentUser;
 					try {
