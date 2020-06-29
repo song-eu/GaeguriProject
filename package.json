@@ -2,6 +2,7 @@
    "name": "gaeguri-server",
    "version": "0.0.1",
    "description": "gaeguri",
+   "main" : "src/index.ts",
    "devDependencies": {
       "@types/bcrypt": "^3.0.0",
       "@types/cors": "^2.8.6",
@@ -48,6 +49,13 @@
       "gen-schema-type": "gql2ts src/api/**/*.graphql -o src/types/**/*.schema.d.ts",
       "type": "ts-node src/types/createTypes.ts",
       "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
-      "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
-   }
+      "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
+      "heroku-prebuild": "echo This runs before Heroku installs dependencies.",
+      "heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies.",
+      "heroku-cleanup": "echo This runs after Heroku prunes and caches dependencies."
+   },
+   "engines": {
+      "node": "10.x",
+      "npm": "6.x"
+    }
 }
