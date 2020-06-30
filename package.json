@@ -2,7 +2,7 @@
    "name": "gaeguri-server",
    "version": "0.0.1",
    "description": "gaeguri",
-   "main" : "src/index.ts",
+   "main": "src/index.ts",
    "devDependencies": {
       "@types/bcrypt": "^3.0.0",
       "@types/cors": "^2.8.6",
@@ -33,6 +33,7 @@
       "merge-graphql-schemas": "^1.7.8",
       "morgan": "^1.10.0",
       "mysql": "^2.14.1",
+      "nodemon": "^2.0.4",
       "passport": "^0.4.1",
       "passport-google-oauth20": "^2.0.0",
       "passport-jwt": "^4.0.0",
@@ -57,5 +58,5 @@
    "engines": {
       "node": "10.x",
       "npm": "6.x"
-    }
+   }
 }
