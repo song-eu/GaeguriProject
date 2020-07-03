@@ -9,10 +9,65 @@ type Mutation {
     NoOfPosition: [NoOfPosition!],
     Stacks: [String],
     Question: String
-    ): [Error!]
+    ): resCreateProject!
 }
 
 input NoOfPosition {
     name: String!
     count: Int!
+}
+
+type resCreateProject {
+    ok: Boolean
+    error: String
+    path: String
+    newProject: Project
+}
+
+type Project {
+    Project_id:Int
+    Project_name: String
+    StartAt: Date
+    EndAt: Date
+    Desc: String
+    projectstack: [PS_ProjectStack]
+    status: String
+    projectpositionno: [StatusOfPosition]
+    CreatedBy: Int
+    Owner_id: Int
+    createdAt: Date
+    updatedAt: Date
+}
+type PS_ProjectStack {
+    PS_id: String
+    Project_id: Int
+    Stack_id: Int
+    stack: Stack
+}
+
+type Stack {
+    Stack_id: Int
+    Stack_name: String
+}
+
+type StatusOfPosition {
+    PP_id: Int
+    Project_id: Int
+    Position_id: Int
+    NoOfPosition: Int
+    position: Position
+    PC: [PC]
+}
+type PC {
+    Project_Position_id: Int
+    Sender_id: Int
+    Candidate_id:Int
+    Allowed: String
+    Owner: String
+    candidate: UserInfo
+}
+
+type Position {
+    Position_id: Int
+    Position_name: String
 }

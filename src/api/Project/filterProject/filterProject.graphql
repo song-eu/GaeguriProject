@@ -57,6 +57,7 @@ type PC {
 }
 
 type Position {
+    Position_id: Int
     Position_name: String
 }
 
