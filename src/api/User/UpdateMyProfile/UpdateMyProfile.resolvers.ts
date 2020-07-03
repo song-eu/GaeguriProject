@@ -33,15 +33,17 @@ export const resolvers: ResolverMap = {
 					delete args.stack;
 				}
 				const notNull: any = trimArgs(args);
-				await User.update({ User_id }, { ...notNull });
+				const user = await User.update({ User_id }, { ...notNull });
 				return {
 					ok: true,
 					error: null,
+					user,
 				};
 			} catch (error) {
 				return {
 					ok: false,
 					error: error.message,
+					user: null,
 				};
 			}
 		}),

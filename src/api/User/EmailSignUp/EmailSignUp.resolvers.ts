@@ -16,6 +16,7 @@ export const resolvers: ResolverMap = {
 					ok: false,
 					error: '이미 존재하는 이메일 입니다',
 					token: null,
+					user: existingUser,
 				};
 			} else {
 				//const hashedPwd = await bcrypt.hash(args.Password, BCRYPT_ROUND);
@@ -25,6 +26,7 @@ export const resolvers: ResolverMap = {
 					ok: true,
 					error: null,
 					token,
+					user: newUser,
 				};
 			}
 		},
