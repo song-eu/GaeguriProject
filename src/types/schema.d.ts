@@ -82,6 +82,12 @@ declare namespace GQL {
 		token: string | null;
 	}
 
+	interface SocialLoginMutationArgs {
+		Email?: string;
+		Username?: string;
+		Facebook_id?: string;
+	}
+
 	interface GetChatQueryArgs {
 		Project_id: number;
 	}

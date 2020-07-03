@@ -31,7 +31,7 @@ export class User extends BaseEntity {
 	@Column('varchar', { length: 255, unique: true })
 	Email: string;
 
-	@Column('text')
+	@Column({ type: 'text', nullable: true })
 	Password: string;
 
 	@Column('varchar', { length: 255, nullable: true })
@@ -103,6 +103,9 @@ export class User extends BaseEntity {
 
 	@OneToMany(() => DirectMessage, (dm) => dm.user)
 	dm_user: DirectMessage[];
+
+	@Column({ type: 'text', nullable: true })
+	Facebook_id: string;
 
 	@BeforeInsert()
 	@BeforeUpdate()

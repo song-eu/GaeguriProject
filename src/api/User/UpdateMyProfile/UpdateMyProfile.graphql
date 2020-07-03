@@ -1,15 +1,16 @@
 type UpdateMyProfileResponse {
   ok: Boolean!
   error: String
+  user: User
 }
 
 type Mutation{
     UpdateMyProfile (
         Username: String
-        Password : String
+        Password: String
         position: String
         Position_id: Int
-        stack : [String]
+        stack: [String]
         AboutMe: String
         Career: String
         Grade: Int
@@ -17,6 +18,6 @@ type Mutation{
         Profile_photo_path: String
         User_role: String
         Allow_Invitation: Boolean
-    ) : UpdateMyProfileResponse!
+    ): UpdateMyProfileResponse!
 }
 

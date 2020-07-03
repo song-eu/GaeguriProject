@@ -1,0 +1,15 @@
+type FacebookLoginResponse {
+    ok: Boolean!
+    error: String
+    state: String
+    token: String
+    user: User
+}
+
+type Mutation{
+  FacebookLogin(
+    Facebook_id: String
+    Email: String
+    Username: String
+  ): FacebookLoginResponse!
+}
