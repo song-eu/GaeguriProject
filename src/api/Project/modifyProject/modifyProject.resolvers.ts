@@ -12,6 +12,7 @@ export const resolvers: ResolverMap = {
 			console.log(input);
 			const { Project_id } = input;
 			let result = [];
+			const today = new Date();
 
 			for (let props of Object.keys(input).slice(1)) {
 				//console.log('props?????', props, `${props} : ${input[props]}`);
@@ -25,15 +26,95 @@ export const resolvers: ResolverMap = {
 					});
 					return result;
 				}
-				prj[props] = input[props];
-				await prj.save().catch((error) => {
-					result.push({
-						ok: false,
-						error: error.message,
-						path: `updateProjectInfo_${props}`,
-						project: null,
+				if (props !== 'Status') {
+					prj[props] = input[props];
+					await prj.save().catch((error) => {
+						result.push({
+							ok: false,
+							error: error.message,
+							path: `updateProjectInfo_${props}`,
+							project: null,
+						});
 					});
-				});
+				} else {
+					if (prj.status === 'Start') {
+						if (input[props] === 'End') {
+							prj.StartAt = today;
+							prj.status = input[props];
+							await prj.save();
+							const project = await Project.createQueryBuilder('Project')
+								.leftJoinAndSelect('Project.projectpositionno', 'ppn')
+								.leftJoinAndSelect('Project.projectstack', 'ps')
+								.leftJoin('ps.stack', 'stack')
+								.leftJoin('ppn.position', 'position')
+								.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed', { allowed: 'Allowed' })
+								.leftJoin('PC.candidate', 'PCU')
+								.where('Project.Project_id = :Project_id')
+								.setParameter('Project_id', Project_id)
+								.addSelect('stack.Stack_name')
+								.addSelect('position.Position_name')
+								.addSelect('PC')
+								.addSelect('PCU')
+								.getOne();
+
+							result.push({
+								ok: true,
+								error: null,
+								path: 'updateProjectStatus',
+								project: project,
+							});
+						} else {
+							result.push({
+								ok: false,
+								error: 'Already Started',
+								path: 'updateProjectStatus',
+								project: null,
+							});
+						}
+					} else if (prj.status === 'await') {
+						if (input[props] === 'Start') {
+							prj.StartAt = today;
+							prj.status = input[props];
+							await prj.save();
+
+							const project = await Project.createQueryBuilder('Project')
+								.leftJoinAndSelect('Project.projectpositionno', 'ppn')
+								.leftJoinAndSelect('Project.projectstack', 'ps')
+								.leftJoin('ps.stack', 'stack')
+								.leftJoin('ppn.position', 'position')
+								.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed', { allowed: 'Allowed' })
+								.leftJoin('PC.candidate', 'PCU')
+								.where('Project.Project_id = :Project_id')
+								.setParameter('Project_id', Project_id)
+								.addSelect('stack.Stack_name')
+								.addSelect('position.Position_name')
+								.addSelect('PC')
+								.addSelect('PCU')
+								.getOne();
+
+							result.push({
+								ok: true,
+								error: null,
+								path: 'updateProjectStatus',
+								project: project,
+							});
+						} else {
+							result.push({
+								ok: false,
+								error: 'Not Started Yet',
+								path: 'updateProjectStatus',
+								project: null,
+							});
+						}
+					} else {
+						result.push({
+							ok: false,
+							error: 'Already terminated project',
+							path: 'updateProjectStatus',
+							project: null,
+						});
+					}
+				}
 				if (prj) {
 					const project = await Project.createQueryBuilder('Project')
 						.leftJoinAndSelect('Project.projectpositionno', 'ppn')
