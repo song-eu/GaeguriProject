@@ -14,7 +14,7 @@ export const resolvers: ResolverMap = {
 			let result = [];
 			const today = new Date();
 
-			for (let props of Object.keys(input).slice(1)) {
+			for await (let props of Object.keys(input).slice(1)) {
 				//console.log('props?????', props, `${props} : ${input[props]}`);
 				const prj = await Project.findOne({ where: { Project_id: Project_id } });
 				if (!prj) {
@@ -35,6 +35,7 @@ export const resolvers: ResolverMap = {
 							path: `updateProjectInfo_${props}`,
 							project: null,
 						});
+						return result;
 					});
 				} else {
 					if (prj.status === 'Start') {
@@ -42,27 +43,6 @@ export const resolvers: ResolverMap = {
 							prj.StartAt = today;
 							prj.status = input[props];
 							await prj.save();
-							const project = await Project.createQueryBuilder('Project')
-								.leftJoinAndSelect('Project.projectpositionno', 'ppn')
-								.leftJoinAndSelect('Project.projectstack', 'ps')
-								.leftJoin('ps.stack', 'stack')
-								.leftJoin('ppn.position', 'position')
-								.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed', { allowed: 'Allowed' })
-								.leftJoin('PC.candidate', 'PCU')
-								.where('Project.Project_id = :Project_id')
-								.setParameter('Project_id', Project_id)
-								.addSelect('stack.Stack_name')
-								.addSelect('position.Position_name')
-								.addSelect('PC')
-								.addSelect('PCU')
-								.getOne();
-
-							result.push({
-								ok: true,
-								error: null,
-								path: 'updateProjectStatus',
-								project: project,
-							});
 						} else {
 							result.push({
 								ok: false,
@@ -70,34 +50,13 @@ export const resolvers: ResolverMap = {
 								path: 'updateProjectStatus',
 								project: null,
 							});
+							return result;
 						}
 					} else if (prj.status === 'await') {
 						if (input[props] === 'Start') {
 							prj.StartAt = today;
 							prj.status = input[props];
 							await prj.save();
-
-							const project = await Project.createQueryBuilder('Project')
-								.leftJoinAndSelect('Project.projectpositionno', 'ppn')
-								.leftJoinAndSelect('Project.projectstack', 'ps')
-								.leftJoin('ps.stack', 'stack')
-								.leftJoin('ppn.position', 'position')
-								.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed', { allowed: 'Allowed' })
-								.leftJoin('PC.candidate', 'PCU')
-								.where('Project.Project_id = :Project_id')
-								.setParameter('Project_id', Project_id)
-								.addSelect('stack.Stack_name')
-								.addSelect('position.Position_name')
-								.addSelect('PC')
-								.addSelect('PCU')
-								.getOne();
-
-							result.push({
-								ok: true,
-								error: null,
-								path: 'updateProjectStatus',
-								project: project,
-							});
 						} else {
 							result.push({
 								ok: false,
@@ -105,6 +64,7 @@ export const resolvers: ResolverMap = {
 								path: 'updateProjectStatus',
 								project: null,
 							});
+							return result;
 						}
 					} else {
 						result.push({
@@ -113,32 +73,33 @@ export const resolvers: ResolverMap = {
 							path: 'updateProjectStatus',
 							project: null,
 						});
+						return result;
 					}
 				}
-				if (prj) {
-					const project = await Project.createQueryBuilder('Project')
-						.leftJoinAndSelect('Project.projectpositionno', 'ppn')
-						.leftJoinAndSelect('Project.projectstack', 'ps')
-						.leftJoin('ps.stack', 'stack')
-						.leftJoin('ppn.position', 'position')
-						.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed', { allowed: 'Allowed' })
-						.leftJoin('PC.candidate', 'PCU')
-						.where('Project.Project_id = :Project_id')
-						.setParameter('Project_id', Project_id)
-						.addSelect('stack.Stack_name')
-						.addSelect('position.Position_name')
-						.addSelect('PC')
-						.addSelect('PCU')
-						.getOne();
-
-					result.push({
-						ok: true,
-						error: null,
-						path: `updateProjectInfo_${props}`,
-						project: project,
-					});
-				}
 			}
+
+			const project = await Project.createQueryBuilder('Project')
+				.leftJoinAndSelect('Project.projectpositionno', 'ppn')
+				.leftJoinAndSelect('Project.projectstack', 'ps')
+				.leftJoin('ps.stack', 'stack')
+				.leftJoin('ppn.position', 'position')
+				.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed', { allowed: 'Allowed' })
+				.leftJoin('PC.candidate', 'PCU')
+				.where('Project.Project_id = :Project_id')
+				.setParameter('Project_id', Project_id)
+				.addSelect('stack.Stack_name')
+				.addSelect('position.Position_name')
+				.addSelect('PC')
+				.addSelect('PCU')
+				.getOne();
+
+			result.push({
+				ok: true,
+				error: null,
+				path: `updateProjectInfo`,
+				project: project,
+			});
+
 			return result;
 		},
 		updateProjectStack: async (_, { input }) => {
