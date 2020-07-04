@@ -12,6 +12,7 @@ input upProject {
     EndAt: Date
     Desc: String
     Owner_id: Int
+    Status: String
 }
 input upPS {
     Project_id: Int!
