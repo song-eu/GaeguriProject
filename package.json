@@ -51,9 +51,8 @@
       "type": "ts-node src/types/createTypes.ts",
       "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
       "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
-      "heroku-prebuild": "echo This runs before Heroku installs dependencies.",
-      "heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies.",
-      "heroku-cleanup": "echo This runs after Heroku prunes and caches dependencies."
+      "deploy-development": "pm2 deploy ecosystem.config.js development --force",
+      "reload-development": "pm2 deploy ecosystem.config.js development exec 'pm2 reload app'"
    },
    "engines": {
       "node": "10.x",
