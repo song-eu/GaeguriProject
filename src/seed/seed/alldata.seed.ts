@@ -9,6 +9,7 @@ import { Project } from '../../entities/Project';
 import { PPProjectPositionNo } from '../../entities/PP_ProjectPositionNo';
 import { PCProjectCandidate } from '../../entities/PC_ProjectCandidate';
 import { PSProjectStack } from '../../entities/PS_ProjectStack';
+import { Chat } from '../../entities/Chat';
 
 export default class CreateDummy implements Seeder {
 	public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -134,6 +135,20 @@ export default class CreateDummy implements Seeder {
 				pc2.Allowed = 'Allowed';
 				await pc2.save();
 			}
+
+			const user = await User.findOne({ where: { User_id: project.Owner_id }, select: ['Username'] });
+			const chat = new Chat();
+			chat.Project_id = project.Project_id;
+			chat.User_id = project.Owner_id;
+			chat.Contents = `Hi. Nice to Meet u. Myname is ${user.Username}`;
+			await chat.save();
+
+			const user2 = await User.findOne({ where: { User_id: pc2User }, select: ['Username'] });
+			const chat2 = new Chat();
+			chat2.Project_id = project.Project_id;
+			chat2.User_id = pc2User;
+			chat2.Contents = `Hi. I'm ${user2.Username}. Thank you for letting me take part in ${project.Project_name}`;
+			await chat2.save();
 		}
 	}
 }
