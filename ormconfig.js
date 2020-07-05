@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 module.exports = {
 	type: 'mysql',
 	host: process.env.MYSQL_SERVER,
@@ -8,14 +9,14 @@ module.exports = {
 	database: process.env.DB_NAME,
 	synchronize: true,
 	logging: true,
-	entities: ['src/entities/**/*.ts'],
-	migrations: ['src/migration/**/*.ts'],
-	subscribers: ['src/subscriber/**/*.ts'],
-	seeds: ['src/seed/seed/*.seed.ts'],
-	factories: ['src/seed/factory/*.factory.ts'],
+	entities: [path.join(__dirname, 'src/entities/**/*.ts')],
+	migrations: [path.join(__dirname, 'src/migration/**/*.ts')],
+	subscribers: [path.join(__dirname, 'src/subscriber/**/*.ts')],
+	seeds: [path.join(__dirname, 'src/seed/seed/*.seed.ts')],
+	factories: [path.join(__dirname, 'src/seed/factory/*.factory.ts')],
 	cli: {
-		entitiesDir: 'src/entities',
-		migrationsDir: 'src/migration',
-		subscribersDir: 'src/subscriber',
+		entitiesDir: path.join(__dirname, 'src/entities'),
+		migrationsDir: path.join(__dirname, 'src/migration'),
+		subscribersDir: path.join(__dirname, 'src/subscriber'),
 	},
 };
