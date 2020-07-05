@@ -17,11 +17,12 @@ export const resolvers: ResolverMap = {
 
 				const project = await Project.createQueryBuilder('Project')
 					.leftJoinAndSelect('Project.projectpositionno', 'ppn')
+					.leftJoinAndSelect('Project.projectstack', 'ps')
+					.leftJoin('ps.stack', 'stack')
 					.leftJoin('ppn.position', 'position')
 					.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed')
 					.leftJoin('PC.candidate', 'PCU')
 					.where((qb) => {
-						//------------------------아래 subQuery부분이 User_id 를 가지고 'allowed'된 프로젝트를 찾는부분'
 						const subQuery = qb
 							.subQuery()
 							.select('PC.Project_id')
@@ -30,11 +31,11 @@ export const resolvers: ResolverMap = {
 							.where('PC.Candidate_id = :user_id and PC.Allowed = :allowed', { user_id: User_id })
 							.select('DISTINCT PP.Project_id', 'Project_id')
 							.getQuery();
-						return 'Project.Project_id IN ' + subQuery; // 찾은 프로젝트를 Project_id 로 찾는 부분
+						return 'Project.Project_id IN ' + subQuery;
 					})
 					.setParameter('allowed', 'Allowed')
+					.addSelect('stack.Stack_name')
 					.addSelect('position.Position_name')
-					.addSelect('project.status')
 					.addSelect('PC')
 					.addSelect('PCU')
 					.getMany();
