@@ -27,7 +27,7 @@ module.exports = {
 		development: {
 			// 개발 환경설정
 			user: 'root',
-			host: [{ host: 'http://52.78.76.186/', port: '4000' }],
+			host: [{ host: 'http://52.78.76.186', port: '4000' }],
 			ssh_options: 'StrictHostKeyChecking=no',
 			ref: 'origin/Dev', // 리모트 브랜치
 			repo: 'git@github.com:codestates/Gaeguri-server.git', // Github 프로젝트 주소
