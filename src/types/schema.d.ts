@@ -63,6 +63,10 @@ declare namespace GQL {
 		Username: string;
 		Password: string;
 		Email: string;
+		position?: string;
+		Position_id?: number;
+		stack?: Array<string>;
+		AboutMe?: string;
 	}
 
 	interface EmailSignUpResponse {
