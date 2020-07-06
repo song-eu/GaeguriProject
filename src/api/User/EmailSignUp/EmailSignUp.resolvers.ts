@@ -9,7 +9,6 @@ import trimArgs from '../../../utils/trimArgs';
 export const resolvers: ResolverMap = {
 	Mutation: {
 		EmailSignUp: async (_, args: GQL.EmailSignUpMutationArgs) => {
-			//const {Username, Password, Email, Position_id, AboutMe} = args;
 			const existingUser = await User.findOne({ Email: args.Email });
 			if (existingUser) {
 				return {

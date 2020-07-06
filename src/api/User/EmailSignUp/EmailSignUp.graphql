@@ -11,5 +11,10 @@ type Mutation {
     Username: String!
     Email: String!
     Password: String!
+    position: String
+		Position_id: Int
+		stack: [String]
+		AboutMe: String
+    
   ):EmailSignUpResponse!
 }
