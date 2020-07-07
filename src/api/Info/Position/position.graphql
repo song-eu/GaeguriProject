@@ -1,0 +1,9 @@
+type Query {
+    positionAll: [Position],
+    positionUser: [Position]
+}
+
+type Position {
+    Position_id: Int
+    Position_name: String
+}

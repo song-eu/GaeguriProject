@@ -1,0 +1,8 @@
+type Query {
+    stackAll: [Stack]
+}
+
+type Stack {
+    Stack_id: Int
+    Stack_name: String
+}
