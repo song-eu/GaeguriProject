@@ -2,6 +2,8 @@ type UpdateMyProfileResponse {
   ok: Boolean!
   error: String
   user: User
+  position: Position
+  stack: [Stack]
 }
 
 type Mutation{
