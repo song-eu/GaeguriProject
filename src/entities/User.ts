@@ -31,7 +31,7 @@ export class User extends BaseEntity {
 	@Column('varchar', { length: 255, unique: true })
 	Email: string;
 
-	@Column({ type: 'text', nullable: true })
+	@Column({ type: 'text' })
 	Password: string;
 
 	@Column('varchar', { length: 255, nullable: true })
@@ -107,7 +107,6 @@ export class User extends BaseEntity {
 	@Column({ type: 'text', nullable: true })
 	Facebook_id: string;
 
-	@BeforeInsert()
 	@BeforeUpdate()
 	async savePassword(): Promise<void> {
 		if (this.Password) {
