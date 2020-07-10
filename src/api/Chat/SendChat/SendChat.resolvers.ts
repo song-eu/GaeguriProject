@@ -1,6 +1,7 @@
 import { Chat } from '../../../entities/Chat';
 import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
 import { Project } from '../../../entities/Project';
+import { User } from '../../../entities/User';
 
 export const resolvers: ResolverMap = {
 	Mutation: {
@@ -14,7 +15,11 @@ export const resolvers: ResolverMap = {
 			try {
 				const project = await Project.findOne({ Project_id });
 				if (project) {
-					const chat = await Chat.create({ User_id, Project_id, Contents }).save();
+					const newChat = await Chat.create({ User_id, Project_id, Contents }).save();
+					const chat = await Chat.createQueryBuilder('Chat')
+						.leftJoinAndSelect('Chat.user', 'ChatUser')
+						.where({ Chat_id: newChat.Chat_id })
+						.getOne();
 					pubSub.publish('newChatMessage', { ChatSub: chat });
 					return {
 						ok: true,
