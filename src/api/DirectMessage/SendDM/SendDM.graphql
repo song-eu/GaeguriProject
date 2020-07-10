@@ -15,8 +15,8 @@ type DirectMessage {
   user: User
   Message_id: Int
   Contents: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 type User {

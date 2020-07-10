@@ -15,7 +15,7 @@ type Message {
     user1: User
     User2_id: Int
     user2: User
-    createdAt: String
+    createdAt: Date
 }
 
 type User {

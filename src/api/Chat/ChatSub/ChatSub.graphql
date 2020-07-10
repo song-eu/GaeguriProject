@@ -7,5 +7,5 @@ type Chat {
   User_id: Int!
   Project_id: Int!
   Contents: String
-  createdAt: String
+  createdAt: Date
 }
