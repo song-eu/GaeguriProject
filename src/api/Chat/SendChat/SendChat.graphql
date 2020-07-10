@@ -12,7 +12,8 @@ type Mutation {
 type Chat {
   Chat_id: Int
   User_id: Int
+  user: User
   Project_id: Int
   Contents: String
-  createdAt: String
+  createdAt: Date
 }
