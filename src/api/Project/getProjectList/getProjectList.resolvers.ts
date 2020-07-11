@@ -94,5 +94,33 @@ export const resolvers: ResolverMap = {
 
 			return project;
 		},
+		getProjectUserDetail: async (_, { Project_id }) => {
+			const project = await Project.createQueryBuilder('Project')
+				.leftJoinAndSelect('Project.projectpositionno', 'ppn')
+				.leftJoinAndSelect('Project.projectstack', 'ps')
+				.leftJoin('ps.stack', 'stack')
+				.leftJoin('ppn.position', 'position')
+				.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed', { allowed: 'Allowed' })
+				.leftJoin('PC.candidate', 'PCU')
+				.where('Project.Project_id = :Project_id')
+				.setParameter('Project_id', Project_id)
+				.addSelect('stack.Stack_name')
+				.addSelect('position.Position_name')
+				.addSelect('PC')
+				.addSelect('PCU')
+				.getOne();
+
+			const projectUserArr = [];
+			const pp = project.projectpositionno.forEach((position) => {
+				position.PC.forEach((pc) => {
+					const obj = { position: null, user: null };
+					obj.position = position.position;
+					obj.user = pc.candidate;
+					projectUserArr.push(obj);
+				});
+			});
+
+			return projectUserArr;
+		},
 	},
 };
