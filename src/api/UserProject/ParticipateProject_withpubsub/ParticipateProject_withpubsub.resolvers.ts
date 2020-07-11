@@ -49,6 +49,19 @@ export const resolvers: ResolverMap = {
 				for await (let prop of newPC.PC) {
 					if (prop.Candidate_id === User_id) {
 						if (prop.Sender_id !== null && prop.Allowed === 'Wait') {
+							const [parti, partiTotal] = await PCProjectCandidate.findAndCount({
+								where: {
+									Project_Postion_id: newPC.PP_id,
+									Allowed: 'Allowed',
+								},
+							});
+							if (partiTotal >= newPC.NoOfPosition) {
+								return {
+									ok: false,
+									error: 'Capacity exceeded',
+									patha: 'participateProject',
+								};
+							}
 							const invitedCandidate = await PCProjectCandidate.findOne({
 								where: {
 									Project_Postion_id: newPC.PP_id,
@@ -66,6 +79,19 @@ export const resolvers: ResolverMap = {
 								error: null,
 							};
 						} else {
+							const [parti, partiTotal] = await PCProjectCandidate.findAndCount({
+								where: {
+									Project_Postion_id: newPC.PP_id,
+									Allowed: 'Allowed',
+								},
+							});
+							if (partiTotal >= newPC.NoOfPosition) {
+								return {
+									ok: false,
+									error: 'Capacity exceeded',
+									patha: 'participateProject',
+								};
+							}
 							const invitedCandidate = await PCProjectCandidate.findOne({
 								where: {
 									Project_Postion_id: newPC.PP_id,
@@ -86,13 +112,26 @@ export const resolvers: ResolverMap = {
 						}
 					}
 				}
+				const [parti, partiTotal] = await PCProjectCandidate.findAndCount({
+					where: {
+						Project_Postion_id: newPC.PP_id,
+						Allowed: 'Allowed',
+					},
+				});
+				if (partiTotal >= newPC.NoOfPosition) {
+					return {
+						ok: false,
+						error: 'Capacity exceeded',
+						patha: 'participateProject',
+					};
+				}
 				const newPCU = await PCProjectCandidate.create({
 					Project_Postion_id: newPC.PP_id,
 					Candidate_id: User_id,
 					Allowed: 'Allowed',
 					Answer: Answer,
 				}).save();
-				console.log(newPCU);
+				//console.log(newPCU);
 				pubSub.publish('NEW_PARTICIPATION_APPLY', { newApplySub: { Project_id, Position_id, User_id } });
 				return {
 					ok: true,

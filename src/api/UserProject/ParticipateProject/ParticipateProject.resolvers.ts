@@ -35,7 +35,7 @@ export const resolvers: ResolverMap = {
 					})
 					.getOne();
 
-				console.log('newPCU', newPC);
+				//console.log('newPCU', newPC);
 				//console.log('newPCU.PP_id', newPC.PP_id);
 
 				if (!newPC) {
@@ -48,6 +48,20 @@ export const resolvers: ResolverMap = {
 				for await (let prop of newPC.PC) {
 					if (prop.Candidate_id === User_id) {
 						if (prop.Sender_id !== null && prop.Allowed === 'Wait') {
+							const [parti, partiTotal] = await PCProjectCandidate.findAndCount({
+								where: {
+									Project_Postion_id: newPC.PP_id,
+									Allowed: 'Allowed',
+								},
+							});
+							//console.log('partitotal vs noof position ', partiTotal, newPC.NoOfPosition);
+							if (partiTotal >= newPC.NoOfPosition) {
+								return {
+									ok: false,
+									error: 'Capacity exceeded',
+									patha: 'participateProject',
+								};
+							}
 							const invitedCandidate = await PCProjectCandidate.findOne({
 								where: {
 									Project_Postion_id: newPC.PP_id,
@@ -64,13 +78,22 @@ export const resolvers: ResolverMap = {
 								path: 'participateProject - Invited Accept',
 								error: null,
 							};
-						} else if (prop.Allowed === 'Wait') {
-							return {
-								ok: false,
-								path: 'participateProject',
-								error: 'Already requested',
-							};
 						} else {
+							const [parti, partiTotal] = await PCProjectCandidate.findAndCount({
+								where: {
+									Project_Postion_id: newPC.PP_id,
+									Allowed: 'Allowed',
+								},
+							});
+							if (partiTotal >= newPC.NoOfPosition) {
+								return {
+									ok: false,
+									error: 'Capacity exceeded',
+									patha: 'participateProject',
+								};
+							}
+							//console.log('partitotal vs noof position ', partiTotal, newPC.NoOfPosition);
+
 							const invitedCandidate = await PCProjectCandidate.findOne({
 								where: {
 									Project_Postion_id: newPC.PP_id,
@@ -78,30 +101,45 @@ export const resolvers: ResolverMap = {
 								},
 							});
 							invitedCandidate.Answer = Answer;
-							invitedCandidate.Allowed = 'Wait';
+							invitedCandidate.Allowed = 'Allowed';
 							await invitedCandidate.save();
 							pubSub.publish('NEW_PARTICIPATION_APPLY', {
 								newApplySub: { Project_id, Position_id, User_id },
 							});
 							return {
 								ok: true,
-								path: 'participateProject - Requested Successfully',
+								path: 'participateProject - Participate Successfully',
 								error: null,
 							};
 						}
 					}
 				}
+				const [parti, partiTotal] = await PCProjectCandidate.findAndCount({
+					where: {
+						Project_Postion_id: newPC.PP_id,
+						Allowed: 'Allowed',
+					},
+				});
+				if (partiTotal >= newPC.NoOfPosition) {
+					return {
+						ok: false,
+						error: 'Capacity exceeded',
+						patha: 'participateProject',
+					};
+				}
+				//console.log('partitotal vs noof position ', partiTotal, newPC.NoOfPosition);
+
 				const newPCU = await PCProjectCandidate.create({
 					Project_Postion_id: newPC.PP_id,
 					Candidate_id: User_id,
-					Allowed: 'Wait',
+					Allowed: 'Allowed',
 					Answer: Answer,
 				}).save();
-				console.log(newPCU);
+				//console.log(newPCU);
 				pubSub.publish('NEW_PARTICIPATION_APPLY', { newApplySub: { Project_id, Position_id, User_id } });
 				return {
 					ok: true,
-					path: 'participateProject - Requested Successfully',
+					path: 'participateProject - Participate Successfully',
 					error: null,
 				};
 			} catch (e) {

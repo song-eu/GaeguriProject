@@ -1,7 +1,7 @@
 # import Error from '../../shared.graphql'
 
 type Mutation{
-    participateProject(input: PP_User): [Error]
+    participateProject(input: PP_User): resPP
 }
 
 type resPP  {
