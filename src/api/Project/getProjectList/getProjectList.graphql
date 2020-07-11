@@ -1,10 +1,23 @@
 # import Error from '../../shared.graphql'
 type Query {
     hello(name: String): String!,
-    getMyProjectList(User_id: Int!): [Project],
-    getAvailableProjectList(User_id: Int!): [Project],
-    getProjectDetail(Project_id: Int): Project,
+    getMyProjectList: [Project],
+    getAvailableProjectList: [Project],
+    getProjectDetail(Project_id: Int): Project
+    getMyProjectListwithStatus: resStatusProject
     getProjectUserDetail(Project_id: Int!): [projectUserArr]
+}
+
+type resStatusProject{
+    ok: Boolean
+    path: String
+    error: String
+    statusProject: statusProject
+}
+
+type statusProject{
+    onGoing: [Project]
+    end: [Project]
 }
 
 type Project {

@@ -65,12 +65,6 @@ export const resolvers: ResolverMap = {
 								path: 'participateProject - Invited Accept',
 								error: null,
 							};
-						} else if (prop.Allowed === 'Wait') {
-							return {
-								ok: false,
-								path: 'participateProject',
-								error: 'Already requested',
-							};
 						} else {
 							const invitedCandidate = await PCProjectCandidate.findOne({
 								where: {
@@ -79,14 +73,14 @@ export const resolvers: ResolverMap = {
 								},
 							});
 							invitedCandidate.Answer = Answer;
-							invitedCandidate.Allowed = 'Wait';
+							invitedCandidate.Allowed = 'Allowed';
 							await invitedCandidate.save();
 							pubSub.publish('NEW_PARTICIPATION_APPLY', {
 								newApplySub: { Project_id, Position_id, User_id },
 							});
 							return {
 								ok: true,
-								path: 'participateProject - Requested Successfully',
+								path: 'participateProject - Participate Successfully',
 								error: null,
 							};
 						}
@@ -95,14 +89,14 @@ export const resolvers: ResolverMap = {
 				const newPCU = await PCProjectCandidate.create({
 					Project_Postion_id: newPC.PP_id,
 					Candidate_id: User_id,
-					Allowed: 'Wait',
+					Allowed: 'Allowed',
 					Answer: Answer,
 				}).save();
 				console.log(newPCU);
 				pubSub.publish('NEW_PARTICIPATION_APPLY', { newApplySub: { Project_id, Position_id, User_id } });
 				return {
 					ok: true,
-					path: 'participateProject - Requested Successfully',
+					path: 'participateProject - Participate Successfully',
 					error: null,
 				};
 			} catch (e) {
