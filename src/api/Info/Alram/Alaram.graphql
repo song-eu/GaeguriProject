@@ -1,0 +1,26 @@
+# import Error from '../../shared.graphql'
+type Query {
+    test: Boolean
+    myAlramList: resAlram
+}
+
+type resAlram {
+    ok: Boolean
+    path: String
+    error: String
+    newMember: [alram]
+    newInvitation: [alram]
+
+}
+
+type alram {
+    type: String
+    Project_id: Int
+    Project_Name: String
+    Postion_id: Int
+    Position_name: String
+    User_id: Int
+    Email: String
+    Username: String
+    createAt: Date
+}
