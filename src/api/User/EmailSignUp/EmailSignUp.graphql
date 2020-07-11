@@ -4,6 +4,8 @@ type EmailSignUpResponse {
   error: String 
   token: String 
   user: User
+  position: Position
+  stack:[Stack]
 }
 
 type Mutation {

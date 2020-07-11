@@ -3,13 +3,52 @@ import 'dotenv/config';
 import cors from 'cors';
 import logger from 'morgan';
 
-import { Response, NextFunction } from 'express';
+import { Response, NextFunction, static as expressStatic } from 'express';
 import { GraphQLServer, PubSub } from 'graphql-yoga';
 
 import { genSchema } from './utils/genSchema';
 import typeormdbc from './ormconnection';
 import decodeJWT from './utils/token/decodeJWT';
+import multer from 'multer';
+import path from 'path';
+import { User } from './entities/User';
+import { getRepository } from 'typeorm';
 
+/*<----------------------------multer file-upload-------------------------------->*/
+
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, 'upload/profilePhoto/');
+	},
+	filename: function (req, file, cb) {
+		const uploadedFile = {
+			name: req.params.email.split('@')[0],
+			ext: file.mimetype.split('/')[1],
+		};
+		//console.log('----------filename???', req.params.email);
+		cb(null, new Date().valueOf() + '_' + uploadedFile.name + '.' + uploadedFile.ext);
+	},
+});
+
+function checkFileType(file, cb) {
+	if (
+		file.mimetype === 'image/png' ||
+		file.mimetype === 'image/jpg' ||
+		file.mimetype === 'image/jpeg' ||
+		file.mimetype === 'image/gif'
+	) {
+		// check file type to be png, jpeg, or jpg
+		cb(null, true);
+	} else {
+		cb(null, false); // else fails
+	}
+}
+const upload = multer({
+	storage: storage,
+	fileFilter: (req, file, cb) => {
+		checkFileType(file, cb);
+	},
+});
 /*<----------------------------class App-------------------------------->*/
 
 class App {
@@ -43,6 +82,37 @@ class App {
 		this.app.express.use(this.jwt);
 		this.app.express.use(cors());
 		this.app.express.use(logger('dev'));
+		this.app.express.post(
+			'/upload/profile/:email',
+			upload.fields([{ name: 'imgProfile' }, { name: 'User_id' }, { name: 'Email' }]),
+			async (req, res) => {
+				try {
+					//const con = await typeormdbc();
+					const { files, user } = req;
+					const { User_id, Email } = req.body;
+					if (!files) {
+						const error = new Error('Please upload a file');
+						return res.send(error);
+					}
+
+					console.log('-----------files', files['imgProfile'][0].filename, User_id);
+					if (files['imgProfile']) {
+						//const filePath = files['imgProfile'][0].filename;
+						//console.log(filePath);
+						const profilePath = '/profile' + '/' + files['imgProfile'][0].filename;
+						const userPath = await getRepository(User).update({ User_id }, { Profile_photo_path: profilePath });
+						//res.send(userPath);
+						files['imgProfile'] = { ...files['imgProfile'][0], url: profilePath };
+					}
+
+					res.send(files['imgProfile']);
+				} catch (err) {
+					console.log('-----------err??', err);
+					res.sendStatus(400);
+				}
+			}
+		);
+		this.app.express.use('/profile', expressStatic(path.join(__dirname, '../upload/profilePhoto')));
 	};
 	private jwt = async (req, res: Response, next: NextFunction): Promise<void> => {
 		const token = req.get('X-JWT');

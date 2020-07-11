@@ -90,6 +90,8 @@ declare namespace GQL {
 		Email?: string;
 		Username?: string;
 		Facebook_id?: string;
+		Kakao_id?: string;
+		Profile_photo_path?: string;
 	}
 
 	interface GetChatQueryArgs {

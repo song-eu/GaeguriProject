@@ -28,7 +28,7 @@ export class User extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	User_id: number;
 
-	@Column('varchar', { length: 255, unique: true })
+	@Column('varchar', { length: 255, unique: true, nullable: true })
 	Email: string;
 
 	@Column({ type: 'text', nullable: true })
@@ -36,12 +36,6 @@ export class User extends BaseEntity {
 
 	@Column('varchar', { length: 255, nullable: true })
 	Username: string;
-
-	@Column({ type: 'text', nullable: true })
-	PhoneNumber: string;
-
-	@Column({ type: 'boolean', nullable: true })
-	VerifiedPhoneNumber: boolean;
 
 	@Column({ type: 'text', nullable: true })
 	Position_id: number;
@@ -107,7 +101,9 @@ export class User extends BaseEntity {
 	@Column({ type: 'text', nullable: true })
 	Facebook_id: string;
 
-	@BeforeInsert()
+	@Column({ type: 'text', nullable: true })
+	Kakao_id: string;
+
 	@BeforeUpdate()
 	async savePassword(): Promise<void> {
 		if (this.Password) {

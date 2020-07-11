@@ -5,6 +5,7 @@ type Query {
     getAvailableProjectList: [Project],
     getProjectDetail(Project_id: Int): Project
     getMyProjectListwithStatus: resStatusProject
+    getProjectUserDetail(Project_id: Int!): [projectUserArr]
 }
 
 type resStatusProject{
@@ -71,3 +72,7 @@ type UserInfo{
     Username: String
 }
 
+type projectUserArr {
+    position: Position
+    user: User
+}
