@@ -3,7 +3,8 @@ type Query {
     hello(name: String): String!,
     getMyProjectList(User_id: Int!): [Project],
     getAvailableProjectList(User_id: Int!): [Project],
-    getProjectDetail(Project_id: Int): Project
+    getProjectDetail(Project_id: Int): Project,
+    getProjectUserDetail(Project_id: Int!): [projectUserArr]
 }
 
 type Project {
@@ -58,3 +59,7 @@ type UserInfo{
     Username: String
 }
 
+type projectUserArr {
+    position: Position
+    user: User
+}
