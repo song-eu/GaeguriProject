@@ -1,4 +1,4 @@
-import { ResolverMap } from '../../../types/graphql.utils';
+import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
 import { createQueryBuilder } from 'typeorm';
 import { Project } from '../../../entities/Project';
 import { PSProjectStack } from '../../../entities/PS_ProjectStack';
@@ -8,7 +8,7 @@ import { PPProjectPositionNo } from '../../../entities/PP_ProjectPositionNo';
 
 export const resolvers: ResolverMap = {
 	Mutation: {
-		updateProjectInfo: async (_, { input }) => {
+		updateProjectInfo: privateResolver(async (_, { input }, { req }) => {
 			console.log(input);
 			const { Project_id } = input;
 			let result = [];
@@ -101,8 +101,8 @@ export const resolvers: ResolverMap = {
 			});
 
 			return result;
-		},
-		updateProjectStack: async (_, { input }) => {
+		}),
+		updateProjectStack: privateResolver(async (_, { input }, { req }) => {
 			try {
 				const { Project_id } = input;
 				let result = [];
@@ -215,8 +215,8 @@ export const resolvers: ResolverMap = {
 					},
 				];
 			}
-		},
-		updateProjectNoOfPosition: async (_, { input }) => {
+		}),
+		updateProjectNoOfPosition: privateResolver(async (_, { input }, { req }) => {
 			console.log(input);
 			const { Project_id } = input;
 			let result = [];
@@ -380,95 +380,6 @@ export const resolvers: ResolverMap = {
 				await updateLoopFunc(input.update);
 			}
 			return result;
-		},
-		updateProjectStatus: async (_, { input }) => {
-			console.log(input);
-			const { Project_id, Status } = input;
-			const today = new Date();
-			let result = [];
-			console.log(today);
-
-			const prj = await Project.findOne({
-				Project_id,
-			});
-			if (prj.status === 'Start') {
-				if (Status === 'End') {
-					prj.StartAt = today;
-					prj.status = Status;
-					await prj.save();
-					const project = await Project.createQueryBuilder('Project')
-						.leftJoinAndSelect('Project.projectpositionno', 'ppn')
-						.leftJoinAndSelect('Project.projectstack', 'ps')
-						.leftJoin('ps.stack', 'stack')
-						.leftJoin('ppn.position', 'position')
-						.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed', { allowed: 'Allowed' })
-						.leftJoin('PC.candidate', 'PCU')
-						.where('Project.Project_id = :Project_id')
-						.setParameter('Project_id', Project_id)
-						.addSelect('stack.Stack_name')
-						.addSelect('position.Position_name')
-						.addSelect('PC')
-						.addSelect('PCU')
-						.getOne();
-
-					result.push({
-						ok: true,
-						error: null,
-						path: 'updateProjectStatus',
-						project: project,
-					});
-				} else {
-					result.push({
-						ok: false,
-						error: 'Already Started',
-						path: 'updateProjectStatus',
-						project: null,
-					});
-				}
-			} else if (prj.status === 'await') {
-				if (Status === 'Start') {
-					prj.StartAt = today;
-					prj.status = Status;
-					await prj.save();
-
-					const project = await Project.createQueryBuilder('Project')
-						.leftJoinAndSelect('Project.projectpositionno', 'ppn')
-						.leftJoinAndSelect('Project.projectstack', 'ps')
-						.leftJoin('ps.stack', 'stack')
-						.leftJoin('ppn.position', 'position')
-						.leftJoin('ppn.PC', 'PC', 'PC.Allowed = :allowed', { allowed: 'Allowed' })
-						.leftJoin('PC.candidate', 'PCU')
-						.where('Project.Project_id = :Project_id')
-						.setParameter('Project_id', Project_id)
-						.addSelect('stack.Stack_name')
-						.addSelect('position.Position_name')
-						.addSelect('PC')
-						.addSelect('PCU')
-						.getOne();
-
-					result.push({
-						ok: true,
-						error: null,
-						path: 'updateProjectStatus',
-						project: project,
-					});
-				} else {
-					result.push({
-						ok: false,
-						error: 'Not Started Yet',
-						path: 'updateProjectStatus',
-						project: null,
-					});
-				}
-			} else {
-				result.push({
-					ok: false,
-					error: 'Already terminated project',
-					path: 'updateProjectStatus',
-					project: null,
-				});
-			}
-			return result;
-		},
+		}),
 	},
 };

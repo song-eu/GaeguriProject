@@ -1,9 +1,9 @@
-import { ResolverMap } from '../../../types/graphql.utils';
+import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
 import { Project } from '../../../entities/Project';
 
 export const resolvers: ResolverMap = {
 	Query: {
-		searchProject: async (_, { input }) => {
+		searchProject: privateResolver(async (_, { input }, { req, pubSub }) => {
 			const { category, keyword } = input;
 			try {
 				if (category === undefined) {
@@ -70,6 +70,6 @@ export const resolvers: ResolverMap = {
 					filteredPrj: null,
 				};
 			}
-		},
+		}),
 	},
 };

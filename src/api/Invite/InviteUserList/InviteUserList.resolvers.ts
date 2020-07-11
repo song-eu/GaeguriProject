@@ -5,7 +5,7 @@ import { PCProjectCandidate } from '../../../entities/PC_ProjectCandidate';
 
 export const resolvers: ResolverMap = {
 	Query: {
-		getInvitableUserList: async (_, { input }) => {
+		getInvitableUserList: privateResolver(async (_, { input }, { req, pubSub }) => {
 			const { Project_id, Position_id } = input;
 			//console.log('req??????', Project_id);
 			//console.log('req', req.user.User_id);
@@ -60,6 +60,6 @@ export const resolvers: ResolverMap = {
 			// subquery 로 includeUser 를 웨어절에서 제거하고 출력
 			// position_id 를 추가해서 user 의 포지션별로 출력 가능하게
 			// if 절 왜에 쓸 수 있는 방법은? 있으면 검색 없으면 검색안하는.. ?
-		},
+		}),
 	},
 };
