@@ -21,6 +21,7 @@ export const resolvers: ResolverMap = {
 						error: null,
 						chat,
 						path: 'GetChat',
+						Project_id,
 					};
 				} else {
 					return {
@@ -28,6 +29,7 @@ export const resolvers: ResolverMap = {
 						error: 'project 가 없습니다',
 						chat: null,
 						path: 'GetChat',
+						Project_id,
 					};
 				}
 			} catch (error) {
@@ -36,6 +38,7 @@ export const resolvers: ResolverMap = {
 					error: error.message,
 					chat: null,
 					path: 'GetChat',
+					Project_id: null,
 				};
 			}
 		}),
