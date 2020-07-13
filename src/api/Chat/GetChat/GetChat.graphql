@@ -3,6 +3,7 @@ type GetChatResponse {
   error: String
   chat: [Chat]
   path: String
+  Project_id: Int
 }
 type Query {
   GetChat(Project_id: Int!) : GetChatResponse!

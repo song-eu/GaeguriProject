@@ -26,6 +26,7 @@ export const resolvers: ResolverMap = {
 						error: null,
 						chat,
 						path: 'SendChat',
+						Project_id,
 					};
 				} else {
 					return {
@@ -33,6 +34,7 @@ export const resolvers: ResolverMap = {
 						error: '프로젝트 방을 통한 접근이 아닙니다',
 						chat: null,
 						path: 'SendChat',
+						Project_id,
 					};
 				}
 			} catch (error) {
@@ -41,6 +43,7 @@ export const resolvers: ResolverMap = {
 					error: error.message,
 					chat: null,
 					path: 'SendChat',
+					Project_id: null,
 				};
 			}
 		}),

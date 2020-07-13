@@ -3,6 +3,7 @@ type SendChatResponse {
   error: String
   chat: Chat
   path: String
+  Project_id: Int
 }
 
 type Mutation {
