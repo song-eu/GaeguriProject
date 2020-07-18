@@ -28,7 +28,7 @@ export const resolvers: ResolverMap = {
 				//console.log(newMem);
 				let newMemData = [];
 				for await (let data of newMem) {
-					console.log(data);
+					//console.log(data);
 					let newMem = {
 						type: 'NewMember',
 						Project_id: data.P_Project_id,
