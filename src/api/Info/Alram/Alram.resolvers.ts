@@ -38,6 +38,7 @@ export const resolvers: ResolverMap = {
 						User_id: data.PC_Candidate_id,
 						Email: data.PU_Email,
 						Username: data.PU_Username,
+						Allowed: data.PC_Allowed,
 						createAt: data.PC_createdAt,
 					};
 					newMemData.push(newMem);
@@ -49,9 +50,10 @@ export const resolvers: ResolverMap = {
 					.leftJoinAndSelect('PP.position', 'PO')
 					.leftJoinAndSelect('PP.project', 'P')
 					.where('PC.Sender_id IS NOT NULL')
-					.andWhere('PC.Allowed = :allowed', { allowed: 'Wait' })
+					.andWhere('PC.createdAt >= :after', { after })
 					.andWhere('PC.Candidate_id = :uid', { uid: User_id })
 					.getRawMany();
+				// .andWhere('PC.Allowed = :allowed', { allowed: 'Wait' })
 
 				let newInvitationData = [];
 				for await (let data of newInvite) {
@@ -65,6 +67,7 @@ export const resolvers: ResolverMap = {
 						User_id: data.PC_Sender_id,
 						Email: data.PU_Email,
 						Username: data.PU_Username,
+						Allowed: data.PC_Allowed,
 						createAt: data.PC_createdAt,
 					};
 					newInvitationData.push(newInv);

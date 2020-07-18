@@ -49,6 +49,15 @@ export const resolvers: ResolverMap = {
 							message: 'Success',
 						},
 					];
+				} else if (attendUser.PC[0].Allowed === 'Wait' && attendUser.PC[0].Sender_id != null) {
+					attendUser.PC[0].Allowed = 'Rejected';
+					await attendUser.PC[0].save();
+					return [
+						{
+							path: 'rejectProject',
+							message: 'Success',
+						},
+					];
 				} else {
 					return [
 						{

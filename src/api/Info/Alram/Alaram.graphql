@@ -22,5 +22,6 @@ type alram {
     User_id: Int
     Email: String
     Username: String
+    Allowed: String
     createAt: Date
 }
