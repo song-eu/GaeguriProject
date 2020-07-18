@@ -8,11 +8,11 @@ export const resolvers: ResolverMap = {
 			try {
 				const followers = await UFUserFriend.createQueryBuilder('UF')
 					.leftJoinAndSelect('UF.followee', 'UFEE')
-					.where({ Follower_id: User_id })
+					.where({ Follower_id: User_id }) //내가 팔로우 하는 사람들
 					.getMany();
 				const followees = await UFUserFriend.createQueryBuilder('UF')
 					.leftJoinAndSelect('UF.follower', 'UFER')
-					.where({ Followee_id: User_id })
+					.where({ Followee_id: User_id }) //나를 팔로우한 사람들
 					.getMany();
 
 				return {
@@ -41,16 +41,30 @@ export const resolvers: ResolverMap = {
 				isFollowed
 					? await UFUserFriend.delete({ Follower_id, Followee_id })
 					: await UFUserFriend.create({ Follower_id, Followee_id }).save();
+
+				const followers = await UFUserFriend.createQueryBuilder('UF')
+					.leftJoinAndSelect('UF.followee', 'UFEE')
+					.where({ Follower_id })
+					.getMany();
+				const followees = await UFUserFriend.createQueryBuilder('UF')
+					.leftJoinAndSelect('UF.follower', 'UFER')
+					.where({ Followee_id: Follower_id })
+					.getMany();
+
 				return {
 					ok: true,
 					error: null,
 					path: 'toggleFollow',
+					followers,
+					followees,
 				};
 			} catch (error) {
 				return {
 					ok: false,
 					error: error.message,
 					path: 'toggleFollow',
+					followers: null,
+					followees: null,
 				};
 			}
 		}),
