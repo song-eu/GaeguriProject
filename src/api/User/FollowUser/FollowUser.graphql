@@ -1,26 +1,28 @@
 type GetFollowListResponse {
-    ok : Boolean!
-    error : String
-    followers : [User]
-    followees : [User]
+    ok: Boolean!
+    error: String
+    followers: [User]
+    followees: [User]
 }
 
 type ToggleFollowResponse {
-    ok : Boolean!
-    error : String
-    path : String
+    ok: Boolean!
+    error: String
+    path: String
 }
 
 type Query {
-    GetFollowList : GetFollowListResponse!
+    GetFollowList: GetFollowListResponse!
 }
 
 type Mutation {
-    ToggleFollow : ToggleFollowResponse!
+    ToggleFollow(User_id: Int): ToggleFollowResponse!
 }
 
 type User {
     User_id:Int
     Username: String
     Profile_photo_path: String
+    followers: [User]
+    followees: [User]
 }
