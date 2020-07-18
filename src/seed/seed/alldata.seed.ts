@@ -10,7 +10,8 @@ import { PPProjectPositionNo } from '../../entities/PP_ProjectPositionNo';
 import { PCProjectCandidate } from '../../entities/PC_ProjectCandidate';
 import { PSProjectStack } from '../../entities/PS_ProjectStack';
 import { Chat } from '../../entities/Chat';
-
+import * as bcrypt from 'bcrypt';
+const BCRYPT_ROUND = 10;
 export default class CreateDummy implements Seeder {
 	public async run(factory: Factory, connection: Connection): Promise<any> {
 		await connection
@@ -69,16 +70,27 @@ export default class CreateDummy implements Seeder {
 			])
 			.execute();
 		let user_id = 1;
-		const newUsers = await factory(User)().createMany(10);
+		const newGaeguri = new User();
+		newGaeguri.Email = 'gaeguri@gaeguri.com';
+		newGaeguri.Username = '개구리';
+		newGaeguri.Position_id = 1;
+		newGaeguri.Password = await bcrypt.hash('test', BCRYPT_ROUND);
+		newGaeguri.AboutMe = '개발자 구석에서 이제나와 코딩하자';
+		await newGaeguri.save();
+		const newUsers = await factory(User)().createMany(40);
 		for await (let user of newUsers) {
-			const min = faker.random.number({ min: 1, max: 30 });
-			const max = faker.random.number({ min: 1, max: 30 });
+			const sUser = await User.findOne({ User_id: user.User_id });
+			sUser.Password = 'test';
+			await sUser.save();
+			const min = faker.random.number({ min: 1, max: 5 });
+			const max = faker.random.number({ min: 1, max: 5 });
+			let n = faker.random.number({ min: 1, max: 35 });
 			//console.log('USER_ID?????????', user);
 			if (min < max) {
 				for (let i = min; i <= max; i++) {
 					const us = new USUserStack();
 					us.User_id = user.User_id;
-					us.Stack_id = i;
+					us.Stack_id = n++;
 					await us.save();
 				}
 			} else {
@@ -89,17 +101,17 @@ export default class CreateDummy implements Seeder {
 			}
 		}
 		let prj_id = 1;
-		const newPrjs = await factory(Project)().createMany(15);
+		const newPrjs = await factory(Project)().createMany(80);
 
 		for await (let project of newPrjs) {
-			const minps = faker.random.number({ min: 1, max: 41 });
-			const maxps = faker.random.number({ min: 1, max: 41 });
-
+			const minps = faker.random.number({ min: 1, max: 5 });
+			const maxps = faker.random.number({ min: 1, max: 5 });
+			let m = faker.random.number({ min: 1, max: 35 });
 			if (minps < maxps) {
 				for (let n = minps; n <= maxps; n++) {
 					const ps = new PSProjectStack();
 					ps.Project_id = project.Project_id;
-					ps.Stack_id = n;
+					ps.Stack_id = m++;
 					await ps.save();
 				}
 			} else {
@@ -127,7 +139,7 @@ export default class CreateDummy implements Seeder {
 			pp2.NoOfPosition = pp.NoOfPosition === 5 ? pp.NoOfPosition - 1 : pp.NoOfPosition + 1;
 			await pp2.save();
 
-			const pc2User = faker.random.number({ min: 1, max: 10 });
+			const pc2User = faker.random.number({ min: 1, max: 40 });
 			if (pc2User !== project.Owner_id) {
 				const pc2 = new PCProjectCandidate();
 				pc2.Project_Postion_id = pp.PP_id;
