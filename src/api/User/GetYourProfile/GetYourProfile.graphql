@@ -7,7 +7,7 @@ type GetYourProfileResponse {
 }
 
 type Query {
-  GetYourProfile: GetYourProfileResponse!
+  GetYourProfile(User_id: Int, Username: String): GetYourProfileResponse!
 }
 
 type User {
