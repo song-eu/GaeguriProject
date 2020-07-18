@@ -117,7 +117,7 @@ declare namespace GQL {
 	}
 
 	interface GetYourProfileQueryArgs {
-		User_id?: number;
+		User_id: number;
 		Username?: string;
 	}
 
