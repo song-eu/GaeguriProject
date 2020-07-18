@@ -1,12 +1,13 @@
-import { ResolverMap } from '../../../types/graphql.utils';
+import { ResolverMap, privateResolver } from '../../../types/graphql.utils';
 import { Project } from '../../../entities/Project';
 import { PPProjectPositionNo } from '../../../entities/PP_ProjectPositionNo';
 
 export const resolvers: ResolverMap = {
 	Mutation: {
-		leaveProject: async (_, { input }) => {
+		leaveProject: privateResolver(async (_, { input }, { req, pubSub }) => {
 			console.log(input);
-			const { Project_id, Position_id, User_id } = input;
+			const { Project_id, Position_id } = input;
+			const { User_id } = req.user;
 			const attendUser = await PPProjectPositionNo.createQueryBuilder('PPProjectPositionNo')
 				.leftJoinAndSelect('PPProjectPositionNo.PC', 'PC')
 				.where({
@@ -64,6 +65,6 @@ export const resolvers: ResolverMap = {
 					},
 				];
 			}
-		},
+		}),
 	},
 };
