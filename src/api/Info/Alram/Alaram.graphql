@@ -16,7 +16,7 @@ type resAlram {
 type alram {
     type: String
     Project_id: Int
-    Project_Name: String
+    Project_name: String
     Postion_id: Int
     Position_name: String
     User_id: Int
