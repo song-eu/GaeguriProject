@@ -17,7 +17,7 @@ type alram {
     type: String
     Project_id: Int
     Project_name: String
-    Postion_id: Int
+    Position_id: Int
     Position_name: String
     User_id: Int
     Email: String
