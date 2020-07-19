@@ -23,10 +23,9 @@ export const resolvers: ResolverMap = {
 					};
 				} else {
 					const { Email, Password, Username } = args;
-					args.Password = await bcrypt.hash(args.Password, BCRYPT_ROUND);
 					const newUser = await User.create({ Email, Password, Username }).save();
+
 					const token = createJWT(newUser.User_id);
-					delete args.Email, args.Password, args.Username;
 
 					let userPosition: Position;
 					let userStack: Array<Stack> = [];
@@ -50,6 +49,8 @@ export const resolvers: ResolverMap = {
 					}
 
 					const notNull: any = trimArgs(args);
+					delete notNull.Password;
+
 					await User.update({ User_id: newUser.User_id }, { ...notNull });
 					const user = await User.findOne({ User_id: newUser.User_id });
 
