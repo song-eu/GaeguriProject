@@ -27,7 +27,7 @@ define(User, (faker: typeof Faker) => {
 	const user = new User();
 	user.Email = firstName.toLowerCase() + '@' + email.split('@')[1];
 	user.Username = `${firstName} ${lastName}`;
-	user.password = 'test'
+	user.Password = 'test'
 	user.Position_id = faker.random.number({ min: 1, max: 3 });
 	user.AboutMe = arrAboutme[faker.random.number({ min: 1, max: 10 })];
 	return user;
