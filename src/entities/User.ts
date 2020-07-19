@@ -104,6 +104,7 @@ export class User extends BaseEntity {
 	@Column({ type: 'text', nullable: true })
 	Kakao_id: string;
 
+	@BeforeInsert()
 	@BeforeUpdate()
 	async savePassword(): Promise<void> {
 		if (this.Password) {
