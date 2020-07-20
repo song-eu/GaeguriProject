@@ -5,6 +5,10 @@ import app from './app';
 import 'dotenv/config';
 import decodeJWT from './utils/token/decodeJWT';
 
+import graphqlHTTP from 'express-graphql';
+import queryComplexity, { simpleEstimator } from 'graphql-query-complexity';
+import depthLimit from 'graphql-depth-limit';
+
 const PORT: number | string = process.env.PORT || 4000;
 const PLAYGROUND_ENDPOINT: string = '/playground';
 const GRAPHQL_ENDPOINT: string = '/graphql';
@@ -31,6 +35,7 @@ const appOptions: Options = {
 			throw new Error('JWT 토큰이 필요합니다 로그인해주세요');
 		},
 	},
+	validationRules: [depthLimit(12)],
 };
 
 app.start(appOptions, () => {

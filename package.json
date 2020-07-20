@@ -27,6 +27,7 @@
       "express-mysql-session": "^2.1.4",
       "express-session": "^1.17.1",
       "glob": "^7.1.6",
+      "graphql-depth-limit": "1.1.0",
       "graphql-import": "^1.0.2",
       "graphql-middleware": "^4.0.2",
       "graphql-tools": "^6.0.9",
