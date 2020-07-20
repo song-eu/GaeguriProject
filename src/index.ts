@@ -4,9 +4,6 @@ import app from './app';
 
 import 'dotenv/config';
 import decodeJWT from './utils/token/decodeJWT';
-
-import graphqlHTTP from 'express-graphql';
-import queryComplexity, { simpleEstimator } from 'graphql-query-complexity';
 import depthLimit from 'graphql-depth-limit';
 
 const PORT: number | string = process.env.PORT || 4000;
