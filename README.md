@@ -9,7 +9,6 @@ This server is based on TypeScript and Graphql Server for Gaeguri-Client.
 - [Setup](#Setup)
 - [Technologies](#Technologies)
 - [Features](#Features)
-- [Project Seed 추가 방법](#Project Seed 추가 방법)
 
 ## Setup
 Before run :
